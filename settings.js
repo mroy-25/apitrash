@@ -5,7 +5,7 @@ creator = 'Mroy25'
 
 //_______________________ ┏  Apikey  ┓ _______________________\\
 
-apikey = ['astolfo','MROY25']
+keyapi = ['astolfo','MROY25']
 
 // NOTE!!!!
 // KALAU APIKEY HABIS BUAT SENDIRI
