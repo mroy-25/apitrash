@@ -1,25 +1,11 @@
-//_______________________ ┏  Info  ┓ _______________________\\
-//
-//   Credit : AlipBot
-//   
-//   Note 
-//   Jangan Jual SC ini ,
-//   Jangan Buang Text ini,
-//   Siapa Mahu Upload Jangan Lupa Credit :),
-//   Siapa Tidak Letak Credit Akan Ambil Tindakan
-//   
-//_______________________ ┏ Make By AlipBot ┓ _______________________\\
-
-
-
-
-
 //_______________________ ┏  Setting  ┓ _______________________\\
 
 // Name Creator
-creator = '乂𝘼𝙡𝙞𝙥乂'
+creator = 'Mroy25'
 
 //_______________________ ┏  Apikey  ┓ _______________________\\
+
+apikey = ['astolfo','MROY25']
 
 // NOTE!!!!
 // KALAU APIKEY HABIS BUAT SENDIRI
@@ -40,37 +26,43 @@ loghandler = {
         status: false,
         code: 503,
         message: '[!] Service Unavaible, Sedang dalam perbaikan',
-        maintanied_by: `${creator}`
+        maintained_by: `${creator}`
     },
     noturl: {
     	status: false,
     	code: 403,
-    	message: '[!] Forbiden or Error, Invlid url',
-    	maintanied_by: `${creator}`
+    	message: '[!] Forbiden or Error, Invalid url',
+    	maintained_by: `${creator}`
+    },
+    notapikey: {
+    	status: false,
+    	code: 406,
+    	message: '[!] Apikey not found, contact me on whatsapp',
+    	maintained_by: `${creator}`
     },
     notfound: {
     	status: false,
     	code: 404,
     	message: '[!] Forbiden or Error, Not Found',
-    	maintanied_by: `${creator}`
+    	maintained_by: `${creator}`
     },
     notid: {
     	status: false,
     	code: 404,
     	message: '[!] Forbiden or Error, Invalid Id or Zone',
-    	maintanied_by: `${creator}`
+    	maintained_by: `${creator}`
     },
     redy: {
     	status: false,
     	code: 403,
     	message: '[!] Forbiden or Error, Alias ​​already in use',
-    	maintanied_by: `${creator}`
+    	maintained_by: `${creator}`
     },
     emoji: {
 	status: false,
 	code: 403,
 	message: '[!] Forbiden or Error, Emoji not Found',
-	maintanied_by: `${creator}`
+	maintained_by: `${creator}`
 }
 
 }
