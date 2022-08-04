@@ -1169,9 +1169,9 @@ router.get('/randomgambar/coffee', async (req, res, next) => {
 	res.send(result)
 })
 
-// Game
+//―――――――――――――――――――――――――――――――――――――――――― ┏ Maker ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
-router.get('/game/tembakgambar', async (req, res, next) => {
+router.get('/game/tebakgambar', async (req, res, next) => {
 	var apikey = req.query.apikey
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
@@ -1207,7 +1207,7 @@ router.get('/game/susunkata', async (req, res, next) => {
 
 })
 
-router.get('/game/tembakbendera', async (req, res, next) => {
+router.get('/game/tebakbendera', async (req, res, next) => {
 	var apikey = req.query.apikey
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
@@ -1224,7 +1224,7 @@ router.get('/game/tembakbendera', async (req, res, next) => {
 })
 
 
-router.get('/game/tembakgame', async (req, res, next) => {
+router.get('/game/tebakgame', async (req, res, next) => {
 	var apikey = req.query.apikey
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
@@ -1240,7 +1240,7 @@ router.get('/game/tembakgame', async (req, res, next) => {
 
 })
 
-router.get('/game/tembakkata', async (req, res, next) => {
+router.get('/game/tebakkata', async (req, res, next) => {
 	var apikey = req.query.apikey
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
@@ -1256,7 +1256,7 @@ router.get('/game/tembakkata', async (req, res, next) => {
 
 })
 
-router.get('/game/tembaklirik', async (req, res, next) => {
+router.get('/game/tebaklirik', async (req, res, next) => {
 	var apikey = req.query.apikey
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
@@ -1271,7 +1271,7 @@ router.get('/game/tembaklirik', async (req, res, next) => {
 })
 
 })
-router.get('/game/tembaklagu', async (req, res, next) => {
+router.get('/game/tebaklagu', async (req, res, next) => {
 	var apikey = req.query.apikey
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
@@ -1286,7 +1286,7 @@ router.get('/game/tembaklagu', async (req, res, next) => {
 })
 
 })
-router.get('/game/tembakkimia', async (req, res, next) => {
+router.get('/game/tebakkimia', async (req, res, next) => {
 	var apikey = req.query.apikey
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
