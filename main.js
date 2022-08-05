@@ -45,7 +45,7 @@ app.listen(PORT, () => {
 	██╔══██╗██╔══╝  ╚════██║   ██║   ██╔══██║██╔═══╝ ██║
 	██║  ██║███████╗███████║   ██║   ██║  ██║██║     ██║
 	╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝
-			                              Make by Mroy25 
+			                              by Mroy25 
 								 
  Server running on http://localhost:` + PORT)
 console.log(`Hello ${creator}`)
