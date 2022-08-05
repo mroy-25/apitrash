@@ -176,7 +176,7 @@ router.get('/downloader/youtubeplayv2', async (req, res, next) => {
 		res.json({
 			status: true,
 			creator: `${creator}`,
-			result: `${data}`
+			result: data
 		})
 		})
 })
