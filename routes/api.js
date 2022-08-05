@@ -46,7 +46,7 @@ const zippy = require("../lib/scrape/zippy");
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Dowloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 
-router.get('/dowloader/youtubemp3', async (req, res, next) => {
+router.get('/downloader/youtubemp3', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -69,7 +69,7 @@ router.get('/dowloader/youtubemp3', async (req, res, next) => {
 
 	} })
 })
-router.get('/dowloader/youtubemp4', async (req, res, next) => {
+router.get('/downloader/youtubemp4', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -92,7 +92,7 @@ router.get('/dowloader/youtubemp4', async (req, res, next) => {
 
 	} })
 })
-router.get('/dowloader/youtubemp3v2', async (req, res, next) => {
+router.get('/downloader/youtubemp3v2', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -109,7 +109,7 @@ router.get('/dowloader/youtubemp3v2', async (req, res, next) => {
 		})
 		})
 })
-router.get('/dowloader/youtubemp4v2', async (req, res, next) => {
+router.get('/downloader/youtubemp4v2', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -164,7 +164,7 @@ router.get('/downloader/youtubeplay', async (req, res, next) => {
 
 	} })
 })
-router.get('/dowloader/youtubeplayv2', async (req, res, next) => {
+router.get('/downloader/youtubeplayv2', async (req, res, next) => {
 	var text1 = req.query.text;
 	var apikey = req.query.apikey
 	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
@@ -180,7 +180,7 @@ router.get('/dowloader/youtubeplayv2', async (req, res, next) => {
 		})
 		})
 })
-router.get('/dowloader/gdrive', async (req, res, next) => {
+router.get('/downloader/gdrive', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -197,7 +197,7 @@ router.get('/dowloader/gdrive', async (req, res, next) => {
 		})
 		})
 })
-router.get('/dowloader/mediafire', async (req, res, next) => {
+router.get('/downloader/mediafire', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -214,7 +214,7 @@ router.get('/dowloader/mediafire', async (req, res, next) => {
 		})
 		})
 })
-router.get('/dowloader/zippyshare', async (req, res, next) => {
+router.get('/downloader/zippyshare', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -231,7 +231,7 @@ router.get('/dowloader/zippyshare', async (req, res, next) => {
 		})
 		})
 })
-router.get('/dowloader/fbdown', async (req, res, next) => {
+router.get('/downloader/fbdown', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
@@ -252,7 +252,7 @@ apis.fbDown2(url)
 })
 })
 
-router.get('/dowloader/twitter', async (req, res, next) => {
+router.get('/downloader/twitter', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
@@ -274,7 +274,7 @@ res.json(loghandler.error)
 })
 })
 
-router.get('/dowloader/tikok', async (req, res, next) => {
+router.get('/downloader/tikok', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
@@ -297,7 +297,7 @@ apis.musically(url)
 })
 })
 
-router.get('/dowloader/igstory', async (req, res, next) => {
+router.get('/downloader/igstory', async (req, res, next) => {
 	var username = req.query.username;
 	var apikey = req.query.apikey
 	if (!username ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter username"})  
@@ -318,7 +318,7 @@ router.get('/dowloader/igstory', async (req, res, next) => {
 })
 })
 
-router.get('/dowloader/igreels', async (req, res, next) => {
+router.get('/downloader/igreels', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
@@ -341,7 +341,7 @@ router.get('/dowloader/igreels', async (req, res, next) => {
 })
 
 
-router.get('/dowloader/igdowloader', async (req, res, next) => {
+router.get('/downloader/igdowloader', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
@@ -365,7 +365,7 @@ router.get('/dowloader/igdowloader', async (req, res, next) => {
 
 })
 
-router.get('/dowloader/soundcloud', async (req, res, next) => {
+router.get('/downloader/soundcloud', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})  
@@ -388,7 +388,7 @@ router.get('/dowloader/soundcloud', async (req, res, next) => {
 })
 })
 
-router.get('/dowloader/telesticker', async (req, res, next) => {
+router.get('/downloader/telesticker', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
