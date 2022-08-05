@@ -105,7 +105,7 @@ router.get('/dowloader/youtubemp3v2', async (req, res, next) => {
 		res.json({
 			status: true,
 			creator: `${creator}`,
-			result: `${data}`
+			result: data
 		})
 		})
 })
@@ -122,7 +122,7 @@ router.get('/dowloader/youtubemp4v2', async (req, res, next) => {
 		res.json({
 			status: true,
 			creator: `${creator}`,
-			result: `${data}`
+			result: data
 		})
 		})
 })
@@ -193,7 +193,7 @@ router.get('/dowloader/gdrive', async (req, res, next) => {
 		res.json({
 			status: true,
 			creator: `${creator}`,
-			result: `${data}`
+			result: data
 		})
 		})
 })
@@ -210,7 +210,7 @@ router.get('/dowloader/mediafire', async (req, res, next) => {
 		res.json({
 			status: true,
 			creator: `${creator}`,
-			result: `${data}`
+			result: data
 		})
 		})
 })
@@ -227,7 +227,7 @@ router.get('/dowloader/zippyshare', async (req, res, next) => {
 		res.json({
 			status: true,
 			creator: `${creator}`,
-			result: `${data}`
+			result: data
 		})
 		})
 })
