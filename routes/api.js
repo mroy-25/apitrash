@@ -1,7 +1,8 @@
 require('../settings')
+const axios = require('axios');
+const fs = require('fs');
 const express = require('express')
 const translate = require('translate-google-api')
-const apis = require("../lib/listdl")
 const textto = require('soundoftext-js')
 const googleIt = require('google-it')
 const { shortText } = require("limit-text-js")
@@ -9,18 +10,19 @@ const Canvas = require('canvas')
 const TinyURL = require('tinyurl');
 const { EmojiAPI } = require("emoji-api");
 const emoji = new EmojiAPI();
-var isUrl = require("is-url")
 const BitlyClient = require('bitly').BitlyClient
 const canvasGif = require('canvas-gif')
 const { convertStringToNumber } = require('convert-string-to-number'); 
 const isImageURL = require('image-url-validator').default
-const {fetchJson, runtime, getBuffer} = require('../lib/myfunc')
 const Canvacord = require("canvacord");
 const isNumber = require('is-number');
+var isUrl = require("is-url")
 var router = express.Router()
 
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  LIB  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
+const apis = require("../lib/listdl")
 const { ytPlay, ytMp3, ytMp4 } = require("../lib/youtube");
 const { GDrive } = require("../lib/scrape/gdrive");
 const { mediafire2 } = require("../lib/scrape/mediafire");
@@ -45,7 +47,6 @@ const zippy = require("../lib/scrape/zippy");
 //
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Dowloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
-
 router.get('/downloader/youtubemp3', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -69,6 +70,7 @@ router.get('/downloader/youtubemp3', async (req, res, next) => {
 
 	} })
 })
+
 router.get('/downloader/youtubemp4', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -92,6 +94,7 @@ router.get('/downloader/youtubemp4', async (req, res, next) => {
 
 	} })
 })
+
 router.get('/downloader/youtubemp3v2', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -126,6 +129,7 @@ router.get('/downloader/youtubemp4v2', async (req, res, next) => {
 		})
 		})
 })
+
 router.get('/downloader/youtubeplay', async (req, res, next) => {
 	var text1 = req.query.text;
 	var apikey = req.query.apikey
@@ -164,6 +168,7 @@ router.get('/downloader/youtubeplay', async (req, res, next) => {
 
 	} })
 })
+
 router.get('/downloader/youtubeplayv2', async (req, res, next) => {
 	var text1 = req.query.text;
 	var apikey = req.query.apikey
@@ -180,6 +185,7 @@ router.get('/downloader/youtubeplayv2', async (req, res, next) => {
 		})
 		})
 })
+
 router.get('/downloader/gdrive', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -197,6 +203,7 @@ router.get('/downloader/gdrive', async (req, res, next) => {
 		})
 		})
 })
+
 router.get('/downloader/mediafire', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -214,6 +221,7 @@ router.get('/downloader/mediafire', async (req, res, next) => {
 		})
 		})
 })
+
 router.get('/downloader/zippyshare', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -231,6 +239,7 @@ router.get('/downloader/zippyshare', async (req, res, next) => {
 		})
 		})
 })
+
 router.get('/downloader/fbdown', async (req, res, next) => {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -408,6 +417,9 @@ router.get('/downloader/telesticker', async (req, res, next) => {
 	 res.json(loghandler.error)
 })
 })
+
+//―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
