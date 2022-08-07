@@ -1716,7 +1716,7 @@ res.set({'Content-Type': 'gif'})
 res.send(buffer)
 
 })
-  
+})
 
 router.get('/maker/ttp', async (req, res) => {
 	var text = req.query.text;
@@ -1756,7 +1756,6 @@ router.get('/maker/ttp', async (req, res) => {
 		res.set({'Content-Type': 'image/png'})
 		res.send(ttp.create.toBuffer())
   
-})
 })
 
 router.get('/maker/emojimix', async (req, res, next) => {
