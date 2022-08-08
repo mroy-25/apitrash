@@ -463,7 +463,7 @@ router.get('/nsfw/nhentai-read', async (req, res, next) => {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
 	
-	let data = await axios.get(`https://trash-apis.herokuapp.com/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
+	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
 	let result = data.data.result
 	let restjson = result.image
 	let title = result.optional_title.english
