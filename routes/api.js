@@ -435,7 +435,6 @@ router.get('/nsfw/nhentai-info', async (req, res, next) => {
 	        	creator: `${creator}`,
 			result: nh.data
 		})
-		})
          .catch(e => {
 	 res.json(loghandler.error)
 })
@@ -457,7 +456,6 @@ router.get('/nsfw/nhentai-search', async (req, res, next) => {
 			status: true,
 	        	creator: `${creator}`,
 			result: nh.data
-		})
 		})
          .catch(e => {
 	 res.json(loghandler.error)
