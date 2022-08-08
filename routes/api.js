@@ -497,7 +497,6 @@ router.get('/nsfw/nhentai-read', async (req, res, next) => {
 	for(let url of duckJson) html += `<img src=${url}>`
 		res.send(html)
 })
-})
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
