@@ -420,6 +420,93 @@ router.get('/downloader/telesticker', async (req, res, next) => {
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
+//―――――――――――――――――――――――――――――――――――――――――― ┏  NSFW  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+router.get('/nsfw/nhentai-info', async (req, res, next) => {
+	var code = req.query.code;
+	var apikey = req.query.apikey
+	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	let nh = await fetchJson(`https://janda.mod.land/nhentai/get?book=${code}`)
+	
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: nh.data
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+})
+router.get('/nsfw/nhentai-search', async (req, res, next) => {
+	var key = req.query.key;
+	var sort = req.query.sort;
+	var page = req.query.page;
+	var apikey = req.query.apikey
+	if (!key ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter key"})
+	if (!sort ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter sort"})
+	if (!page ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter page"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	let nh = await fetchJson(`https://janda.mod.land/nhentai/search/?key=${key}&sort=${sort}&page=${page}`)
+	
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: nh.data
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+})
+router.get('/nsfw/nhentai-read', async (req, res, next) => {
+	var code = req.query.code;
+	var apikey = req.query.apikey
+	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	
+	let data = await axios.get(`https://trash-apis.herokuapp.com/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
+	let restjson = data.data.image
+	let title = data.data.optional_title.english
+	let duckJson = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
+	let html = `<!DOCTYPE html>
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>${title}</title>
+	<style>
+	img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+	}
+	body {
+		background-color: #1a202c;
+		background-color: rgba(26, 32, 44, 1);
+	}
+	@media (min-width: 576px) {
+		img {
+			width: auto;
+			max-width: 100%;
+			height: auto;
+		}
+	}
+	</style>
+	</head>
+	<body>`
+	for(let url of duckJson) html += `<img src=${url}>`
+		res.send(html)
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+})
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
