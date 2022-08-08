@@ -1,4 +1,5 @@
 require('../settings')
+__path = process.cwd()
 const axios = require('axios');
 const fs = require('fs');
 const fss = require("fs-extra");
@@ -511,6 +512,7 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
+	try {
 	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
 	let result = data.data.result
 	let restjson = result.image
@@ -538,9 +540,13 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 	for (let i = 0; i < array_page.length; i++) {
 		fss.unlink("./tmp/nhentai/" + code + i + ".jpg");
 	}
-	await res.sendFile(`../tmp/nhentai/${code}.pdf`)
+	await res.sendFile(__path + `/tmp/nhentai/${code}.pdf`)
     	await sleep(2000)
-    	await fss.unlinkSync(`../tmp/nhentai/${code}.pdf`)
+    	await fss.unlinkSync(__path + `/tmp/nhentai/${code}.pdf`)
+	
+} catch(err) {
+       res.json({ error: err.message }) 
+     }
 })
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
