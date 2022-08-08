@@ -519,7 +519,7 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 	
 	for (let i = 0; i < array_page.length; i++) {
 		//if (!fs.existsSync("./tmp/nhentai")) fs.mkdirSync("./tmp/nhentai");
-		let image_name = "../tmp/nhentai/" + code + i + ".jpg";
+		let image_name = "./tmp/nhentai/" + code + i + ".jpg";
 		await new Promise((resolve) =>
 			request(array_page[i]).pipe(fs.createWriteStream(image_name)).on("finish", resolve)
 		);
@@ -530,16 +530,16 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 
 	await new Promise((resolve) =>
 		topdf(ResultPdf, "A4")
-			.pipe(fs.createWriteStream("../tmp/nhentai/" + code + ".pdf"))
+			.pipe(fs.createWriteStream("./tmp/nhentai/" + code + ".pdf"))
 			.on("finish", resolve)
 	);
 
 	for (let i = 0; i < array_page.length; i++) {
-		fs.unlink("../tmp/nhentai/" + code + i + ".jpg");
+		fs.unlink("./tmp/nhentai/" + code + i + ".jpg");
 	}
-	await res.sendFile(`../tmp/nhentai/${code}.pdf`)
+	await res.sendFile(`./tmp/nhentai/${code}.pdf`)
     	await sleep(2000)
-    	await fs.unlinkSync(`../tmp/nhentai/${code}.pdf`)
+    	await fs.unlinkSync(`./tmp/nhentai/${code}.pdf`)
 })
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
