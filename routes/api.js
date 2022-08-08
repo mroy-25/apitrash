@@ -435,9 +435,6 @@ router.get('/nsfw/nhentai-info', async (req, res, next) => {
 	        	creator: `${creator}`,
 			result: nh.data
 		})
-         .catch(e => {
-	 res.json(loghandler.error)
-})
 })
 router.get('/nsfw/nhentai-search', async (req, res, next) => {
 	var key = req.query.key;
@@ -457,9 +454,6 @@ router.get('/nsfw/nhentai-search', async (req, res, next) => {
 	        	creator: `${creator}`,
 			result: nh.data
 		})
-         .catch(e => {
-	 res.json(loghandler.error)
-})
 })
 router.get('/nsfw/nhentai-read', async (req, res, next) => {
 	var code = req.query.code;
@@ -470,8 +464,9 @@ router.get('/nsfw/nhentai-read', async (req, res, next) => {
 	
 	
 	let data = await axios.get(`https://trash-apis.herokuapp.com/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
-	let restjson = data.data.image
-	let title = data.data.optional_title.english
+	let result = data.data.result
+	let restjson = result.image
+	let title = result.optional_title.english
 	let duckJson = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
 	let html = `<!DOCTYPE html>
 	<head>
@@ -501,8 +496,6 @@ router.get('/nsfw/nhentai-read', async (req, res, next) => {
 	<body>`
 	for(let url of duckJson) html += `<img src=${url}>`
 		res.send(html)
-         .catch(e => {
-	 res.json(loghandler.error)
 })
 })
 
