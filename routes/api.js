@@ -5,6 +5,8 @@ const express = require('express')
 const translate = require('translate-google-api')
 const textto = require('soundoftext-js')
 const googleIt = require('google-it')
+const topdf = require("image-to-pdf");
+const request = require("request");
 const { shortText } = require("limit-text-js")
 const Canvas = require('canvas')
 const TinyURL = require('tinyurl');
@@ -27,6 +29,10 @@ const { ytPlay, ytMp3, ytMp4 } = require("../lib/youtube");
 const { GDrive } = require("../lib/scrape/gdrive");
 const { mediafire2 } = require("../lib/scrape/mediafire");
 const zippy = require("../lib/scrape/zippy");
+
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Info  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 //  >>>>>Menu<<<<<
@@ -496,6 +502,44 @@ router.get('/nsfw/nhentai-read', async (req, res, next) => {
 	<body>`
 	for(let url of duckJson) html += `<img src=${url}>`
 		res.send(html)
+})
+router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
+	var code = req.query.code;
+	var apikey = req.query.apikey
+	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
+	let result = data.data.result
+	let restjson = result.image
+	let array_page = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
+	let count = 0;
+	let ResultPdf = [];
+	
+	for (let i = 0; i < array_page.length; i++) {
+		//if (!fs.existsSync("./tmp/nhentai")) fs.mkdirSync("./tmp/nhentai");
+		let image_name = "../tmp/nhentai/" + code + i + ".jpg";
+		await new Promise((resolve) =>
+			request(array_page[i]).pipe(fs.createWriteStream(image_name)).on("finish", resolve)
+		);
+		console.log(array_page[i]);
+		ResultPdf.push(image_name);
+		count++;
+	}
+
+	await new Promise((resolve) =>
+		topdf(ResultPdf, "A4")
+			.pipe(fs.createWriteStream("../tmp/nhentai/" + code + ".pdf"))
+			.on("finish", resolve)
+	);
+
+	for (let i = 0; i < array_page.length; i++) {
+		fs.unlink("../tmp/nhentai/" + code + i + ".jpg");
+	}
+	await res.sendFile(`../tmp/nhentai/${code}.pdf`)
+    	await sleep(2000)
+    	await fs.unlinkSync(`../tmp/nhentai/${code}.pdf`)
 })
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
