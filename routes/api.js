@@ -1,6 +1,7 @@
 require('../settings')
 const axios = require('axios');
 const fs = require('fs');
+const fss = require("fs-extra");
 const express = require('express')
 const translate = require('translate-google-api')
 const textto = require('soundoftext-js')
@@ -521,7 +522,7 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 		//if (!fs.existsSync("./tmp/nhentai")) fs.mkdirSync("./tmp/nhentai");
 		let image_name = "./tmp/nhentai/" + code + i + ".jpg";
 		await new Promise((resolve) =>
-			request(array_page[i]).pipe(fs.createWriteStream(image_name)).on("finish", resolve)
+			request(array_page[i]).pipe(fss.createWriteStream(image_name)).on("finish", resolve)
 		);
 		console.log(array_page[i]);
 		ResultPdf.push(image_name);
@@ -530,16 +531,16 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 
 	await new Promise((resolve) =>
 		topdf(ResultPdf, "A4")
-			.pipe(fs.createWriteStream("./tmp/nhentai/" + code + ".pdf"))
+			.pipe(fss.createWriteStream("./tmp/nhentai/" + code + ".pdf"))
 			.on("finish", resolve)
 	);
 
 	for (let i = 0; i < array_page.length; i++) {
-		fs.unlink("./tmp/nhentai/" + code + i + ".jpg");
+		fss.unlink("./tmp/nhentai/" + code + i + ".jpg");
 	}
 	await res.sendFile(`./tmp/nhentai/${code}.pdf`)
     	await sleep(2000)
-    	await fs.unlinkSync(`./tmp/nhentai/${code}.pdf`)
+    	await fss.unlinkSync(`./tmp/nhentai/${code}.pdf`)
 })
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
