@@ -538,9 +538,9 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 	for (let i = 0; i < array_page.length; i++) {
 		fss.unlink("./tmp/nhentai/" + code + i + ".jpg");
 	}
-	await res.sendFile(`./tmp/nhentai/${code}.pdf`)
+	await res.sendFile(`../tmp/nhentai/${code}.pdf`)
     	await sleep(2000)
-    	await fss.unlinkSync(`./tmp/nhentai/${code}.pdf`)
+    	await fss.unlinkSync(`../tmp/nhentai/${code}.pdf`)
 })
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
