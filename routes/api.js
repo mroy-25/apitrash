@@ -663,13 +663,14 @@ router.get('/nsfw/doujindesu-pdf', async (req, res, next) => {
 	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/doujindesu-info?url=${url}&apikey=${apikey}`)
 	let result = data.data.result
 	let restjson = result.image
+	let title = result.title
 	let array_page = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
 	let count = 0;
 	let ResultPdf = [];
 	
 	for (let i = 0; i < array_page.length; i++) {
 		//if (!fs.existsSync("./tmp/nhentai")) fs.mkdirSync("./tmp/nhentai");
-		let image_name = "./tmp/doujindesu/" + url + i + ".jpg";
+		let image_name = "./tmp/doujindesu/dd" + i + ".jpg";
 		await new Promise((resolve) =>
 			request(array_page[i]).pipe(fss.createWriteStream(image_name)).on("finish", resolve)
 		);
@@ -680,16 +681,16 @@ router.get('/nsfw/doujindesu-pdf', async (req, res, next) => {
 
 	await new Promise((resolve) =>
 		topdf(ResultPdf, "A4")
-			.pipe(fss.createWriteStream("./tmp/doujindesu/" + url + ".pdf"))
+			.pipe(fss.createWriteStream("./tmp/doujindesu/" + title + ".pdf"))
 			.on("finish", resolve)
 	);
 
 	for (let i = 0; i < array_page.length; i++) {
-		fss.unlink("./tmp/doujindesu/" + url + i + ".jpg");
+		fss.unlink("./tmp/doujindesu/dd" + i + ".jpg");
 	}
-	await res.sendFile(__path + `/tmp/doujindesu/${url}.pdf`)
+	await res.sendFile(__path + `/tmp/doujindesu/${title}.pdf`)
     	await sleep(3000)
-    	await fss.unlinkSync(__path + `/tmp/doujindesu/${url}.pdf`)
+    	await fss.unlinkSync(__path + `/tmp/doujindesu/${title}.pdf`)
 	
 } catch(err) {
        res.json({ error: err.message }) 
