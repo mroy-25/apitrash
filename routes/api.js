@@ -1,7 +1,9 @@
 require('../settings')
 __path = process.cwd()
+
 const axios = require('axios');
 const fs = require('fs');
+const yts = require('yt-search');
 const fss = require("fs-extra");
 const express = require('express')
 const translate = require('translate-google-api')
@@ -1208,7 +1210,27 @@ textto.sounds.create({ text: text1, voice: lan })
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Search  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
+router.get('/search/ytsearch', async (req, res, next) => {
+	var text1 = req.query.text;
+	var apikey = req.query.apikey
+	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
+	yts(text1)
+.then((data) =>{ 
+	if (!data[0] ) return res.json(loghandler.notfound)
+  res.json({
+	status: true,
+	creator: `${creator}`,
+	result: data
+})
+})
+.catch((err) =>{
+ res.json(loghandler.notfound)
+
+})
+})
 
 router.get('/search/linkgroupwa', async (req, res, next) => {
 	var text1 = req.query.text;
