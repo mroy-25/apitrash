@@ -25,7 +25,7 @@
 
 //Visit
 
-$.getJSON("https://api.countapi.xyz/hit/clone-apis.herokuapp.com/visitor", function(response) {
+$.getJSON("https://api.countapi.xyz/hit/trash-apis.herokuapp.com/visitor", function(response) {
     $("#visitor").text(response.value);
 })
 
