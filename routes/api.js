@@ -33,6 +33,7 @@ const { ytPlay, ytMp3, ytMp4 } = require("../lib/youtube");
 const { GDrive } = require("../lib/scrape/gdrive");
 const { mediafire2 } = require("../lib/scrape/mediafire");
 const zippy = require("../lib/scrape/zippy");
+const { DDlatest, DDdownload, DDsearch } = require("../lib/scrape/doudesu");
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -431,6 +432,8 @@ router.get('/downloader/telesticker', async (req, res, next) => {
 //―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  NSFW  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+
+//nhentai
 router.get('/nsfw/nhentai-info', async (req, res, next) => {
 	var code = req.query.code;
 	var apikey = req.query.apikey
@@ -543,7 +546,7 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
 		fss.unlink("./tmp/nhentai/" + code + i + ".jpg");
 	}
 	await res.sendFile(__path + `/tmp/nhentai/${code}.pdf`)
-    	await sleep(2000)
+    	await sleep(3000)
     	await fss.unlinkSync(__path + `/tmp/nhentai/${code}.pdf`)
 	
 } catch(err) {
@@ -551,6 +554,148 @@ router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
      }
 })
 
+//doujindesu
+router.get('/nsfw/doujindesu-info', async (req, res, next) => {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	DDdownload(url)
+	.then((data) =>{
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: data
+		})
+	})
+	      .catch((err) =>{
+ res.json(loghandler.error)
+})
+})
+router.get('/nsfw/doujindesu-search', async (req, res, next) => {
+	var query = req.query.query;
+	var apikey = req.query.apikey
+	if (!query ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter query"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	DDsearch(url)
+	.then((data) =>{
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: data
+		})
+	})
+		.catch((err) =>{
+ res.json(loghandler.error)
+})
+})
+router.get('/nsfw/doujindesu-latest', async (req, res, next) => {
+	var apikey = req.query.apikey
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	DDlatest()
+	.then((data) =>{
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: data
+		})
+	})
+		.catch((err) =>{
+ res.json(loghandler.error)
+})
+})
+	router.get('/nsfw/doujindesu-read', async (req, res, next) => {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	
+	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/doujindesu-info?url=${url}&apikey=${apikey}`)
+	let result = data.data.result
+	let restjson = result.image
+	let title = result.title
+	let duckJson = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
+	let html = `<!DOCTYPE html>
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>${title}</title>
+	<style>
+	img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+	}
+	body {
+		background-color: #1a202c;
+		background-color: rgba(26, 32, 44, 1);
+	}
+	@media (min-width: 576px) {
+		img {
+			width: auto;
+			max-width: 100%;
+			height: auto;
+		}
+	}
+	</style>
+	</head>
+	<body>`
+	for(let url of duckJson) html += `<img src=${url}>`
+		res.send(html)
+})
+router.get('/nsfw/doujindesu-pdf', async (req, res, next) => {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	try {
+	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/doujindesu-info?url=${url}&apikey=${apikey}`)
+	let result = data.data.result
+	let restjson = result.image
+	let array_page = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
+	let count = 0;
+	let ResultPdf = [];
+	
+	for (let i = 0; i < array_page.length; i++) {
+		//if (!fs.existsSync("./tmp/nhentai")) fs.mkdirSync("./tmp/nhentai");
+		let image_name = "./tmp/doujindesu/" + url + i + ".jpg";
+		await new Promise((resolve) =>
+			request(array_page[i]).pipe(fss.createWriteStream(image_name)).on("finish", resolve)
+		);
+		console.log(array_page[i]);
+		ResultPdf.push(image_name);
+		count++;
+	}
+
+	await new Promise((resolve) =>
+		topdf(ResultPdf, "A4")
+			.pipe(fss.createWriteStream("./tmp/doujindesu/" + url + ".pdf"))
+			.on("finish", resolve)
+	);
+
+	for (let i = 0; i < array_page.length; i++) {
+		fss.unlink("./tmp/doujindesu/" + url + i + ".jpg");
+	}
+	await res.sendFile(__path + `/tmp/doujindesu/${url}.pdf`)
+    	await sleep(3000)
+    	await fss.unlinkSync(__path + `/tmp/doujindesu/${url}.pdf`)
+	
+} catch(err) {
+       res.json({ error: err.message }) 
+     }
+})
+	
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 router.get('/textpro/pencil', async (req, res, next) => {
