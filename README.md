@@ -30,7 +30,7 @@ File Setting ``setting.js``
 
 | FEATURE |🌱|
 | ------------- | ------------- |
-| Dowloader |✔️|
+| Downloader |✔️|
 | Animanga |✔️|
 | NSFW |✔️|
 | SFW |✔️|
