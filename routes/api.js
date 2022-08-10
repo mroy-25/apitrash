@@ -26,14 +26,12 @@ var isUrl = require("is-url")
 var router = express.Router()
 
 
-//―――――――――――――――――――――――――――――――――――――――――― ┏  LIB  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+//―――――――――――――――――――――――――――――――――――――――――― ┏  LIB - API  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
 const apis = require("../lib/listdl")
-const { ytPlay, ytMp3, ytMp4 } = require("../lib/youtube");
-const { GDrive } = require("../lib/scrape/gdrive");
-const { mediafire2 } = require("../lib/scrape/mediafire");
-const zippy = require("../lib/scrape/zippy");
-const { DDlatest, DDdownload, DDsearch } = require("../lib/scrape/doudesu");
+
+const { mp31, mp32, mp41, mp42, play1, play2, gdrivedl, zippydl, mediafiredl, fbdl, twitterdl, tiktokdl, igdl, scdl, igstorydl, teledl } = require('./downloader')
+const { nh_info, nh_search, nh_read, nh_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf } = require('./nsfw')
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -57,646 +55,63 @@ async function sleep(ms) {
 //
 //
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Dowloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+router.get('/downloader/youtubemp3', mp31);
 
-router.get('/downloader/youtubemp3', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	if (!url.includes('youtu')) return res.json(loghandler.noturl)
+router.get('/downloader/youtubemp4', mp41);
 
-	let { yta, ytv } = require('../lib/y2mate')
-	let mp3 = await yta(url, '320kbps')
-	let mp4 = await ytv(url, '360p')
-	if (!mp4.title ) return res.json(loghandler.noturl)
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: {
-				Title: mp4.title,
-				thumb : mp4.thumb,
-				Idvideo: mp4.id,
-				mp3: mp3.dl_link,
+router.get('/downloader/youtubemp3v2', mp32);
 
-	} })
-})
+router.get('/downloader/youtubemp4v2', mp42);
 
-router.get('/downloader/youtubemp4', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	if (!url.includes('youtu')) return res.json(loghandler.noturl)
+router.get('/downloader/youtubeplay', play1);
 
-	let { yta, ytv } = require('../lib/y2mate')
-	let mp3 = await yta(url, '320kbps')
-	let mp4 = await ytv(url, '360p')
-	if (!mp4.title ) return res.json(loghandler.noturl)
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: {
-				Title: mp4.title,
-				thumb : mp4.thumb,
-				Idvideo: mp4.id,
-				mp4: mp4.dl_link
+router.get('/downloader/youtubeplayv2', play2);
 
-	} })
-})
+router.get('/downloader/gdrive', gdrivedl);
 
-router.get('/downloader/youtubemp3v2', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	if (!url.includes('youtu')) return res.json(loghandler.noturl)
+router.get('/downloader/mediafire', mediafiredl);
 
-	ytMp3(url)
-	.then(data => {
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: data
-		})
-		})
-})
-router.get('/downloader/youtubemp4v2', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	if (!url.includes('youtu')) return res.json(loghandler.noturl)
+router.get('/downloader/zippyshare', zippydl);
 
-	ytMp4(url)
-	.then(data => {
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: data
-		})
-		})
-})
+router.get('/downloader/fbdown', fbdl);
 
-router.get('/downloader/youtubeplay', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
+router.get('/downloader/twitter', twitterdl);
 
-	let yts = require("yt-search")
-	let search = await yts(text1)
-	let anu = search.videos[Math.floor(Math.random() * search.videos.length)]
+router.get('/downloader/tiktok', tiktokdl);
 
-	let { yta, ytv } = require('../lib/y2mate')
-	let mp3 = await yta(anu.url, '320kbps')
-	let mp4 = await ytv(anu.url, '360p')
-	
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: {
-				Link: anu.url,
-				Title: anu.title,
-				Description : anu.description,
-				Idvideo: anu.videoId,
-				Duration: anu.timestamp,
-				Viewer: anu.views,
-				UploadedOn : anu.ago,
-				Author : anu.author.name,
-				Channel : anu.author.url,
-				linldowloader: {
-					mp3: mp3.dl_link,
-					mp4:{ 
-						link: mp4.dl_link,
-						filesize: mp4.filesizeF
-					}
-				}
+router.get('/downloader/igstory', igstorydl);
 
-	} })
-})
+router.get('/downloader/igdownloader', igdl);
 
-router.get('/downloader/youtubeplayv2', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
+router.get('/downloader/souncloud', scdl);
 
-	ytPlay(text1)
-	.then(data => {
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: data
-		})
-		})
-})
-
-router.get('/downloader/gdrive', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	if (!url.includes('drive.google')) return res.json(loghandler.noturl)
-
-	GDrive(url)
-	.then(data => {
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: data
-		})
-		})
-})
-
-router.get('/downloader/mediafire', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	if (!url.includes('mediafire.com')) return res.json(loghandler.noturl)
-
-	mediafire2(url)
-	.then(data => {
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: data
-		})
-		})
-})
-
-router.get('/downloader/zippyshare', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	if (!url.includes('zippyshare.com')) return res.json(loghandler.noturl)
-
-	zippy(url)
-	.then(data => {
-		res.json({
-			status: true,
-			creator: `${creator}`,
-			result: data
-		})
-		})
-})
-
-router.get('/downloader/fbdown', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-apis.fbDown2(url)
-.then(data => {
-	if (!data.links ) return res.json(loghandler.noturl)
-	res.json({
-	status: true,
-	creator: `${creator}`,
-	result:	data
-	})
-	})
-	 .catch(e => {
-		res.json(loghandler.error)
-})
-})
-
-router.get('/downloader/twitter', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-apis.twitter(url)
-.then(data => {
-	if (!data.thumb ) res.json(loghandler.noturl)
-var result = data
-res.json({
-status: true,
-creator: `${creator}`,
-result
-})
-})
-.catch(e => {
-res.json(loghandler.error)
-})
-})
-
-router.get('/downloader/tikok', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-
-apis.musically(url)
-.then(data => {
-	if (!data.video ) return res.json(loghandler.noturl)
-	var result = data
-	res.json({
-	status: true,
-	creator: `${creator}`,
-		result
-	})
-	})
-	 .catch(e => {
-	
-		res.json(loghandler.noturl)
-})
-})
-
-router.get('/downloader/igstory', async (req, res, next) => {
-	var username = req.query.username;
-	var apikey = req.query.apikey
-	if (!username ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter username"})  
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	apis.igstory(username)
-	.then(data => {
-		if (!data ) return res.json(loghandler.notfound)
-		var result = data
-		res.json({
-			status: true,
-	        creator: `${creator}`,
-			result
-		})
-		})
-         .catch(e => {  
-			 res.json(loghandler.error)
-})
-})
-
-router.get('/downloader/igreels', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)  
-
-	apis.igdl(url)
-	.then(data => {
-		if (!data ) return res.json(loghandler.noturl)
-		var result = data
-		res.json({
-			status: true,
-	        creator: `${creator}`,
-			result
-		})
-		})
-         .catch(e => {     
-			 res.json(loghandler.error)	
-})
-})
-
-
-router.get('/downloader/igdowloader', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	apis.igdl(url)
-	.then(data => {
-		if (!data ) return res.json(loghandler.noturl)
-		var result = data
-		res.json({
-			status: true,
-	        creator: `${creator}`,
-			result
-		})
-		})
-         .catch(e => {
-         
-			 res.json(loghandler.error)
-})
-
-})
-
-router.get('/downloader/soundcloud', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})  
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	
-	apis.soundcloud(url)
-	.then(data => {
-		if (!data.download ) return res.json(loghandler.noturl)
-		var result = data
-		res.json({
-			status: true,
-	        creator: `${creator}`,
-			result
-		})
-		})
-         .catch(e => {
-         
-			 res.json(loghandler.error)
-})
-})
-
-router.get('/downloader/telesticker', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
-	if (!url.match(/(https:\/\/t.me\/addstickers\/)/gi)) return res.json(loghandler.noturl)
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	apis.telesticker(url)
-	.then(data => {
-		var result = data
-		res.json({
-			status: true,
-	        creator: `${creator}`,
-			result
-		})
-		})
-         .catch(e => {
-	 res.json(loghandler.error)
-})
-})
+router.get('/downloader/telesticker', teledl);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  NSFW  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 //nhentai
-router.get('/nsfw/nhentai-info', async (req, res, next) => {
-	var code = req.query.code;
-	var apikey = req.query.apikey
-	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	let nh = await fetchJson(`https://janda.mod.land/nhentai/get?book=${code}`)
-	
-	res.json({
-			status: true,
-	        	creator: `${creator}`,
-			result: nh.data
-		})
-})
-router.get('/nsfw/nhentai-search', async (req, res, next) => {
-	var key = req.query.key;
-	var sort = req.query.sort;
-	var page = req.query.page;
-	var apikey = req.query.apikey
-	if (!key ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter key"})
-	if (!sort ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter sort"})
-	if (!page ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter page"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	let nh = await fetchJson(`https://janda.mod.land/nhentai/search/?key=${key}&sort=${sort}&page=${page}`)
-	
-	res.json({
-			status: true,
-	        	creator: `${creator}`,
-			result: nh.data
-		})
-})
-router.get('/nsfw/nhentai-read', async (req, res, next) => {
-	var code = req.query.code;
-	var apikey = req.query.apikey
-	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	
-	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
-	let result = data.data.result
-	let restjson = result.image
-	let title = result.optional_title.english
-	let duckJson = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
-	let html = `<!DOCTYPE html>
-	<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>${title}</title>
-	<style>
-	img {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		width: 100%;
-	}
-	body {
-		background-color: #1a202c;
-		background-color: rgba(26, 32, 44, 1);
-	}
-	@media (min-width: 576px) {
-		img {
-			width: auto;
-			max-width: 100%;
-			height: auto;
-		}
-	}
-	</style>
-	</head>
-	<body>`
-	for(let url of duckJson) html += `<img src=${url}>`
-		res.send(html)
-})
-router.get('/nsfw/nhentai-pdf', async (req, res, next) => {
-	var code = req.query.code;
-	var apikey = req.query.apikey
-	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	try {
-	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/nhentai-info?code=${code}&apikey=${apikey}`)
-	let result = data.data.result
-	let restjson = result.image
-	let array_page = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
-	let count = 0;
-	let ResultPdf = [];
-	
-	for (let i = 0; i < array_page.length; i++) {
-		//if (!fs.existsSync("./tmp/nhentai")) fs.mkdirSync("./tmp/nhentai");
-		let image_name = "./tmp/nhentai/" + code + i + ".jpg";
-		await new Promise((resolve) =>
-			request(array_page[i]).pipe(fss.createWriteStream(image_name)).on("finish", resolve)
-		);
-		console.log(array_page[i]);
-		ResultPdf.push(image_name);
-		count++;
-	}
+router.get('/nsfw/nhentai-info', nh_info);
 
-	await new Promise((resolve) =>
-		topdf(ResultPdf, "A4")
-			.pipe(fss.createWriteStream("./tmp/nhentai/" + code + ".pdf"))
-			.on("finish", resolve)
-	);
+router.get('/nsfw/nhentai-search', nh_search);
 
-	for (let i = 0; i < array_page.length; i++) {
-		fss.unlink("./tmp/nhentai/" + code + i + ".jpg");
-	}
-	await res.sendFile(__path + `/tmp/nhentai/${code}.pdf`)
-    	await sleep(3000)
-    	await fss.unlinkSync(__path + `/tmp/nhentai/${code}.pdf`)
-	
-} catch(err) {
-       res.json({ error: err.message }) 
-     }
-})
+router.get('/nsfw/nhentai-read', nh_read);
+
+router.get('/nsfw/nhentai-pdf', nh_pdf);
 
 //doujindesu
-router.get('/nsfw/doujindesu-info', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	DDdownload(url)
-	.then((data) =>{
-	res.json({
-			status: true,
-	        	creator: `${creator}`,
-			result: data
-		})
-	})
-	      .catch((err) =>{
- res.json(loghandler.error)
-})
-})
-router.get('/nsfw/doujindesu-search', async (req, res, next) => {
-	var query = req.query.query;
-	var apikey = req.query.apikey
-	if (!query ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter query"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	DDsearch(query)
-	.then((data) =>{
-	res.json({
-			status: true,
-	        	creator: `${creator}`,
-			result: data
-		})
-	})
-		.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-router.get('/nsfw/doujindesu-latest', async (req, res, next) => {
-	var apikey = req.query.apikey
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	DDlatest()
-	.then((data) =>{
-	res.json({
-			status: true,
-	        	creator: `${creator}`,
-			result: data
-		})
-	})
-		.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-	router.get('/nsfw/doujindesu-read', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	
-	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/doujindesu-info?url=${url}&apikey=${apikey}`)
-	let result = data.data.result
-	let restjson = result.image
-	let title = result.title
-	let duckJson = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
-	let html = `<!DOCTYPE html>
-	<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>${title}</title>
-	<style>
-	img {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		width: 100%;
-	}
-	body {
-		background-color: #1a202c;
-		background-color: rgba(26, 32, 44, 1);
-	}
-	@media (min-width: 576px) {
-		img {
-			width: auto;
-			max-width: 100%;
-			height: auto;
-		}
-	}
-	</style>
-	</head>
-	<body>`
-	for(let url of duckJson) html += `<img src=${url}>`
-		res.send(html)
-})
-router.get('/nsfw/doujindesu-pdf', async (req, res, next) => {
-	var url = req.query.url;
-	var apikey = req.query.apikey
-	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
-	try {
-	let data = await axios.get(`https://trash-apis.herokuapp.com/api/nsfw/doujindesu-info?url=${url}&apikey=${apikey}`)
-	let result = data.data.result
-	let restjson = result.image
-	let title = result.title
-	let array_page = await restjson.map(a => 'https://external-content.duckduckgo.com/iu/?u=' + a)
-	let count = 0;
-	let ResultPdf = [];
-	
-	for (let i = 0; i < array_page.length; i++) {
-		//if (!fs.existsSync("./tmp/nhentai")) fs.mkdirSync("./tmp/nhentai");
-		let image_name = "./tmp/doujindesu/dd" + i + ".jpg";
-		await new Promise((resolve) =>
-			request(array_page[i]).pipe(fss.createWriteStream(image_name)).on("finish", resolve)
-		);
-		console.log(array_page[i]);
-		ResultPdf.push(image_name);
-		count++;
-	}
+router.get('/nsfw/doujindesu-info', dd_info);
 
-	await new Promise((resolve) =>
-		topdf(ResultPdf, "A4")
-			.pipe(fss.createWriteStream("./tmp/doujindesu/" + title + ".pdf"))
-			.on("finish", resolve)
-	);
+router.get('/nsfw/doujindesu-search', dd_search);
 
-	for (let i = 0; i < array_page.length; i++) {
-		fss.unlink("./tmp/doujindesu/dd" + i + ".jpg");
-	}
-	await res.sendFile(__path + `/tmp/doujindesu/${title}.pdf`)
-    	await sleep(3000)
-    	await fss.unlinkSync(__path + `/tmp/doujindesu/${title}.pdf`)
-	
-} catch(err) {
-       res.json({ error: err.message }) 
-     }
-})
-	
+router.get('/nsfw/doujindesu-latest', dd_latest);
+
+router.get('/nsfw/doujindesu-read', dd_read);
+
+router.get('/nsfw/doujindesu-pdf', dd_pdf);
+
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 router.get('/textpro/pencil', async (req, res, next) => {
