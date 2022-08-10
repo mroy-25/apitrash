@@ -581,7 +581,7 @@ router.get('/nsfw/doujindesu-search', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
-	DDsearch(url)
+	DDsearch(query)
 	.then((data) =>{
 	res.json({
 			status: true,
