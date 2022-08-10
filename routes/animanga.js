@@ -82,7 +82,7 @@ async function anoboydl_(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
-	anoboydl(query)
+	anoboydl(url)
 	.then((data) =>{
 	res.json({
 			status: true,
