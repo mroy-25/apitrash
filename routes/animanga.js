@@ -6,6 +6,19 @@ const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('
 const { kuso, kuso2 } = require("../lib/scrape/kusonime");
 const { anoboys, anoboydl } = require("../lib/scrape/anoboy");
 
+async function otaku_home(req, res, next) {
+	var apikey = req.query.apikey
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	let otaku = await fetchJson(`https://otakudesu-api.herokuapp.com/api/home`)
+	
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: otaku.home.on_going
+		})
+}
 async function meganebuk_(req, res, next) {
 	var query = req.query.query;
 	var apikey = req.query.apikey
@@ -91,4 +104,4 @@ async function anoboydl_(req, res, next) {
 		})
     })
 }
-module.exports = { meganebuk_, kusobyquery, kusobyurl, anoboys_, anoboydl_ };
+module.exports = { otaku_home, meganebuk_, kusobyquery, kusobyurl, anoboys_, anoboydl_ };
