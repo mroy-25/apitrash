@@ -470,7 +470,7 @@ async function sk_latest(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
-	const { Latest } = require("../lib/scrape/sekaikomik"); const { Download, Popular, Latest, Search } = require("../lib/scrape/sekaikomik");
+	const { Latest } = require("../lib/scrape/sekaikomik");
 	Latest()
 	.then((data) =>{
 	res.json({
