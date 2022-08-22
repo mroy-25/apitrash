@@ -812,13 +812,17 @@ router.get('/search/ytsearch', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	yts(text1)
-.then((data) =>{ 
-	if (!data[0] ) return res.json(loghandler.notfound)
+	yts(text1).then(async(getData) => {
+            let result = getData.videos.slice( 0, 5 );
+            let url = [];
+            for (let i = 0; i < result.length; i++) {
+                url.push(result[i]);
+            }
+	if (!url[0] ) return res.json(loghandler.notfound)
   res.json({
 	status: true,
 	creator: `${creator}`,
-	result: data
+	result: url
 })
 })
 .catch((err) =>{
