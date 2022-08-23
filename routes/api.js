@@ -29,6 +29,7 @@ var router = express.Router()
 //―――――――――――――――――――――――――――――――――――――――――― ┏  LIB - API  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
 const apis = require("../lib/listdl")
+const samehadaku = require("../lib/samehadaku")
 
 const { mp31, mp32, mp41, mp42, play1, play2, gdrivedl, zippydl, mediafiredl, fbdl, twitterdl, tiktokdl, igdl, scdl, igstorydl, teledl } = require('./downloader')
 const { otaku_home, meganebuk_, kusobyquery, kusobyurl, anoboys_, anoboydl_ } = require('./animanga')
@@ -89,6 +90,27 @@ router.get('/downloader/souncloud', scdl);
 router.get('/downloader/telesticker', teledl);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+
+//samehadaku
+
+router.get('/samehadaku/', samehadaku.home)
+router.get('/samehadaku/page/:page', samehadaku.home)
+router.get('/samehadaku/blog/', samehadaku.blog)
+router.get('/samehadaku/blog/read/:id', samehadaku.readblog)
+router.get('/samehadaku/blog/:page', samehadaku.blog)
+router.get('/samehadaku/anime/:id', samehadaku.anime)
+router.get('/samehadaku/anime/eps/:link', samehadaku.readanime)
+router.get('/samehadaku/search/:title', samehadaku.search)
+router.get('/samehadaku/search/:title/:page', samehadaku.searchByPage)
+router.get('/samehadaku/season/', samehadaku.season)
+router.get('/samehadaku/date-release/', samehadaku.date)
+router.get('/samehadaku/list-anime/', samehadaku.listWithoutPage)
+router.get('/samehadaku/list-anime/:page', samehadaku.listWithPage)
+router.get('/samehadaku/genre/:genre', samehadaku.searchByGenre)
+router.get('/samehadaku/tag/:tag', samehadaku.tag)
+router.get('/samehadaku/blog-category/:category', samehadaku.blogcategory)
+router.get('/samehadaku/blog-category/:category/:page', samehadaku.blogCategoryByPage)
+router.get('/samehadaku/daftar-genre', samehadaku.daftarGenre)
 
 router.get('/animanga/meganebuk', meganebuk_);
 
