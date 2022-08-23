@@ -8,7 +8,7 @@ const request = require("request");
 
 const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
 const { DDlatest, DDdownload, DDsearch } = require("../lib/scrape/doudesu");
-
+const nhzip = require("../lib/nhzip");
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -146,6 +146,25 @@ async function nh_pdf(req, res, next) {
        res.json({ error: err.message }) 
      }
 }
+async function nh_zip(req, res, next) {
+	var code = req.query.code;
+	var apikey = req.query.apikey
+	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	try {
+		await nhzip(code).then(buffer => {
+  fss.writeFileSync(__path + `/tmp/nhentai/${code}.zip`, buffer);
+});
+	await res.sendFile(__path + `/tmp/nhentai/${code}.zip`)
+    	await sleep(3000)
+    	await fss.unlinkSync(__path + `/tmp/nhentai/${code}.zip`)
+	
+} catch(err) {
+       res.json({ error: err.message }) 
+     }
+}	
 //pururin
 async function prr_info(req, res, next) {
 	var code = req.query.code;
@@ -592,4 +611,4 @@ async function sk_pdf(req, res, next) {
        res.json({ error: err.message }) 
      }
 }
-module.exports = { nh_info, nh_search, nh_read, nh_pdf, prr_info, prr_search, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf };
+module.exports = { nh_info, nh_search, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf };
