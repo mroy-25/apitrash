@@ -70,6 +70,7 @@
     "pdfkit": "^0.13.0",
     "qs": "^6.10.3",
     "request": "^2.88.2",
+    "scraperjs": "^1.2.0",
     "scrape-yt": "^1.4.8",
     "secure": "^0.0.1",
     "serve-favicon": "^2.5.0",
