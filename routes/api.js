@@ -32,7 +32,7 @@ const apis = require("../lib/listdl")
 
 const { mp31, mp32, mp41, mp42, play1, play2, gdrivedl, zippydl, mediafiredl, fbdl, twitterdl, tiktokdl, igdl, scdl, igstorydl, teledl } = require('./downloader')
 const { otaku_home, meganebuk_, kusobyquery, kusobyurl, anoboys_, anoboydl_ } = require('./animanga')
-const { nh_info, nh_search, nh_read, nh_pdf, prr_info, prr_search, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf } = require('./nsfw')
+const { nh_info, nh_search, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf } = require('./nsfw')
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -112,6 +112,8 @@ router.get('/nsfw/nhentai-search', nh_search);
 router.get('/nsfw/nhentai-read', nh_read);
 
 router.get('/nsfw/nhentai-pdf', nh_pdf);
+
+router.get('/nsfw/nhentai-zip', nh_zip);
 
 //pururin
 router.get('/nsfw/pururin-info', prr_info);
