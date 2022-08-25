@@ -135,7 +135,7 @@ router.get('/downloader/twitterv2', twitterdl2);
 router.get('/downloader/tiktok', tiktokdl);
 router.get('/downloader/tiktokv2', tiktokdl2);
 router.get('/downloader/igstory', igstorydl);
-router.get('/downloader/instagram', igdl2);
+router.get('/downloader/instagram', igdl);
 router.get('/downloader/instagramv2', igdl2);
 router.get('/downloader/soundcloud', scdl);
 router.get('/downloader/soundcloudv2', scdl2);
