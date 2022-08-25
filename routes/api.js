@@ -21,6 +21,7 @@ const canvasGif = require('canvas-gif')
 const { convertStringToNumber } = require('convert-string-to-number'); 
 const isImageURL = require('image-url-validator').default
 const Canvacord = require("canvacord");
+const openApis = require("@phaticusthiccy/open-apis");
 const isNumber = require('is-number');
 var isUrl = require("is-url")
 var router = express.Router()
@@ -31,10 +32,69 @@ const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('
 const apis = require("../lib/listdl")
 const samehadaku = require("../lib/samehadaku")
 
-const { mp31, mp32, mp41, mp42, play1, play2, gdrivedl, zippydl, mediafiredl, fbdl, twitterdl, tiktokdl, igdl, scdl, igstorydl, teledl } = require('./downloader')
-const { meganebuk_, kusobyquery, kusobyurl, anoboys_, anoboydl_ } = require('./animanga')
-const { nh_info, nh_search, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf } = require('./nsfw')
-const { otaku_home, otaku_genre, otaku_search, otaku_dl } = require('./otakudesu')
+const {  mp31,
+	 mp32, 
+	 mp41, 
+	 mp42, 
+	 play1, 
+	 play2, 
+	 gdrivedl, 
+	 zippydl, 
+	 mediafiredl, 
+	 fbdl, 
+	 fbdl2, 
+	 twitterdl, 
+	 twitterdl2, 
+	 tiktokdl, 
+	 tiktokdl2, 
+	 igdl, 
+	 igdl2,
+	 scdl,
+	 scdl2,
+	 igstorydl, 
+	 teledl,
+	 linedl, 
+	 likedl,
+	 imdb,
+	 cocofundl,
+	 pindl, 
+	 imgur
+	} = require('./downloader')
+
+const { meganebuk_, 
+       kusobyquery, 
+       kusobyurl, 
+       anoboys_, 
+       anoboydl_ 
+      } = require('./animanga')
+
+const { nh_info, 
+       nh_search, 
+       nh_read, 
+       nh_pdf, 
+       nh_zip, 
+       prr_info, 
+       prr_search, 
+       prr_read, 
+       prr_pdf, 
+       dd_info, 
+       dd_latest, 
+       dd_search, 
+       dd_read, 
+       dd_pdf, 
+       sk_info, 
+       sk_latest, 
+       sk_popular, 
+       sk_search, 
+       sk_read, 
+       sk_pdf 
+      } = require('./nsfw')
+
+const { otaku_home, 
+       otaku_genre, 
+       otaku_search, 
+       otaku_dl 
+      } = require('./otakudesu')
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -57,38 +117,35 @@ async function sleep(ms) {
 // >Islamic
 //
 //
-//―――――――――――――――――――――――――――――――――――――――――― ┏  Dowloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+//―――――――――――――――――――――――――――――――――――――――――― ┏  Downloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+
 router.get('/downloader/youtubemp3', mp31);
-
 router.get('/downloader/youtubemp4', mp41);
-
 router.get('/downloader/youtubemp3v2', mp32);
-
 router.get('/downloader/youtubemp4v2', mp42);
-
 router.get('/downloader/youtubeplay', play1);
-
 router.get('/downloader/youtubeplayv2', play2);
-
 router.get('/downloader/gdrive', gdrivedl);
-
 router.get('/downloader/mediafire', mediafiredl);
-
 router.get('/downloader/zippyshare', zippydl);
-
-router.get('/downloader/fbdown', fbdl);
-
+router.get('/downloader/facebook', fbdl);
+router.get('/downloader/facebookv2', fbdl2);
 router.get('/downloader/twitter', twitterdl);
-
+router.get('/downloader/twitterv2', twitterdl2);
 router.get('/downloader/tiktok', tiktokdl);
-
+router.get('/downloader/tiktokv2', tiktokdl2);
 router.get('/downloader/igstory', igstorydl);
-
-router.get('/downloader/igdownloader', igdl);
-
-router.get('/downloader/souncloud', scdl);
-
+router.get('/downloader/instagram', igdl2);
+router.get('/downloader/instagramv2', igdl2);
+router.get('/downloader/soundcloud', scdl);
+router.get('/downloader/soundcloudv2', scdl2);
 router.get('/downloader/telesticker', teledl);
+router.get('/downloader/imdb', imdb);
+router.get('/downloader/linesticker', linedl);
+router.get('/downloader/likee', like);
+router.get('/downloader/cocofun', cocofundl);
+router.get('/downloader/pinterestdl', pindl);
+router.get('/downloader/imgur', imgur);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
@@ -120,13 +177,9 @@ router.get('/animanga/otakudesu-download', otaku_dl);
 
 
 router.get('/animanga/meganebuk', meganebuk_);
-
 router.get('/animanga/kusonime-by-query', kusobyquery);
-
 router.get('/animanga/kusonime-by-url', kusobyurl);
-
 router.get('/animanga/anoboysearch', anoboys_);
-
 router.get('/animanga/anoboydl', anoboydl_);
 
 
@@ -1791,7 +1844,27 @@ router.get('/linkshort/bitly', async (req, res, next) => {
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Infomation  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
-
+router.get('/info/instagramstalk', async (req, res, next) => {
+	var username = req.query.username;
+	var apikey = req.query.apikey
+	if (!username ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter username"})  
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
+	
+	openApis.insta_profile(username)
+	.then(data => {
+		if (!data ) return res.json(loghandler.notfound)
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {  
+			 res.json(loghandler.error)
+})
+}
 router.get('/info/githubstalk', async (req, res, next) => {
 	var user = req.query.user
 	var apikey = req.query.apikey
