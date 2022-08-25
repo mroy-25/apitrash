@@ -3,6 +3,7 @@ __path = process.cwd()
 
 const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
 const apis = require("../lib/listdl")
+const apidl = require("../lib/scrape/downloader2")
 const { ytPlay, ytMp3, ytMp4 } = require("../lib/youtube");
 const { GDrive } = require("../lib/scrape/gdrive");
 const { mediafire2 } = require("../lib/scrape/mediafire");
@@ -224,6 +225,27 @@ apis.fbDown2(url)
 })
 }
 
+async function fbdl2(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+
+apidl.facebook(url)
+.then(data => {
+	if (!data.links ) return res.json(loghandler.noturl)
+	res.json({
+	status: true,
+	creator: `${creator}`,
+	result:	data
+	})
+	})
+	 .catch(e => {
+		res.json(loghandler.error)
+})
+}
+
 async function twitterdl(req, res, next) {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -246,6 +268,28 @@ res.json(loghandler.error)
 })
 }
 
+async function twitterdl2(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+apidl.twitter(url)
+.then(data => {
+	if (!data.thumb ) res.json(loghandler.noturl)
+var result = data
+res.json({
+status: true,
+creator: `${creator}`,
+result
+})
+})
+.catch(e => {
+res.json(loghandler.error)
+})
+}
+
 async function tiktokdl(req, res, next) {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -253,7 +297,30 @@ async function tiktokdl(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 
-apis.musically(url)
+apidl.tiktok(url)
+.then(data => {
+	if (!data.video ) return res.json(loghandler.noturl)
+	var result = data
+	res.json({
+	status: true,
+	creator: `${creator}`,
+		result
+	})
+	})
+	 .catch(e => {
+	
+		res.json(loghandler.noturl)
+})
+}
+
+async function tiktokdl2(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
+
+apidl.tiktok2(url)
 .then(data => {
 	if (!data.video ) return res.json(loghandler.noturl)
 	var result = data
@@ -312,6 +379,28 @@ async function igdl(req, res, next) {
 })
 }
 
+async function igdl2(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)  
+
+	apidl.instagram(url)
+	.then(data => {
+		if (!data ) return res.json(loghandler.noturl)
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {     
+			 res.json(loghandler.error)	
+})
+}
+
 async function scdl(req, res, next) {
 	var url = req.query.url;
 	var apikey = req.query.apikey
@@ -320,6 +409,29 @@ async function scdl(req, res, next) {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	
 	apis.soundcloud(url)
+	.then(data => {
+		if (!data.download ) return res.json(loghandler.noturl)
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {
+         
+			 res.json(loghandler.error)
+})
+}
+
+async function scdl2(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})  
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
+	
+	apidl.soundcloud(url)
 	.then(data => {
 		if (!data.download ) return res.json(loghandler.noturl)
 		var result = data
@@ -355,5 +467,146 @@ async function teledl(req, res, next) {
 	 res.json(loghandler.error)
 })
 }
-
-module.exports = { mp31, mp32, mp41, mp42, play1, play2, gdrivedl, zippydl, mediafiredl, fbdl, twitterdl, tiktokdl, igdl, scdl, igstorydl, teledl };
+async function linedl(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})  
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	apidl.linesticker(url)
+	.then(data => {
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+}
+async function likedl(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})  
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	apidl.like(url)
+	.then(data => {
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+}
+async function cocofundl(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	apidl.cocofun(url)
+	.then(data => {
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+}
+async function imdb(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})  
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	apidl.imdb(url)
+	.then(data => {
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+}
+async function pindl(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	apidl.pinterestdl(url)
+	.then(data => {
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+}
+async function imgur(req, res, next) {
+	var url = req.query.url;
+	var apikey = req.query.apikey
+	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	apidl.imgur(url)
+	.then(data => {
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+         .catch(e => {
+	 res.json(loghandler.error)
+})
+}
+module.exports = { 
+	 mp31,
+	 mp32, 
+	 mp41, 
+	 mp42, 
+	 play1, 
+	 play2, 
+	 gdrivedl, 
+	 zippydl, 
+	 mediafiredl, 
+	 fbdl, 
+	 fbdl2, 
+	 twitterdl, 
+	 twitterdl2, 
+	 tiktokdl, 
+	 tiktokdl2, 
+	 igdl, 
+	 igdl2,
+	 scdl,
+	 scdl2,
+	 igstorydl, 
+	 teledl,
+	 linedl, 
+	 likedl,
+	 imdb,
+	 cocofundl,
+	 pindl, 
+	 imgur
+	};
