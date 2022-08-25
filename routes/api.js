@@ -142,7 +142,7 @@ router.get('/downloader/soundcloudv2', scdl2);
 router.get('/downloader/telesticker', teledl);
 router.get('/downloader/imdb', imdb);
 router.get('/downloader/linesticker', linedl);
-router.get('/downloader/likee', like);
+router.get('/downloader/likee', likedl);
 router.get('/downloader/cocofun', cocofundl);
 router.get('/downloader/pinterestdl', pindl);
 router.get('/downloader/imgur', imgur);
