@@ -1,6 +1,7 @@
 require('../settings')
 __path = process.cwd()
 
+const openApis = require("@phaticusthiccy/open-apis");
 const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
 const apis = require("../lib/listdl")
 const apidl = require("../lib/scrape/downloader2")
@@ -342,7 +343,8 @@ async function igstorydl(req, res, next) {
 	if (!username ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter username"})  
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-	apis.igstory(username)
+	
+	openApis.insta_story(username)
 	.then(data => {
 		if (!data ) return res.json(loghandler.notfound)
 		var result = data
@@ -363,8 +365,10 @@ async function igdl(req, res, next) {
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)  
-
-	apis.igdl(url)
+	
+	try {
+	if (url.includes('reel')) {
+		 openApis.insta_reel(url)
 	.then(data => {
 		if (!data ) return res.json(loghandler.noturl)
 		var result = data
@@ -374,9 +378,21 @@ async function igdl(req, res, next) {
 			result
 		})
 		})
-         .catch(e => {     
-			 res.json(loghandler.error)	
-})
+	} else {
+	 openApis.insta_post(url)
+	.then(data => {
+		if (!data ) return res.json(loghandler.noturl)
+		var result = data
+		res.json({
+			status: true,
+	        creator: `${creator}`,
+			result
+		})
+		})
+	}
+} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function igdl2(req, res, next) {
@@ -393,7 +409,7 @@ async function igdl2(req, res, next) {
 		res.json({
 			status: true,
 	        creator: `${creator}`,
-			result
+		result
 		})
 		})
          .catch(e => {     
