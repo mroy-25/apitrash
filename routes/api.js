@@ -34,6 +34,7 @@ const samehadaku = require("../lib/samehadaku")
 const { mp31, mp32, mp41, mp42, play1, play2, gdrivedl, zippydl, mediafiredl, fbdl, twitterdl, tiktokdl, igdl, scdl, igstorydl, teledl } = require('./downloader')
 const { otaku_home, meganebuk_, kusobyquery, kusobyurl, anoboys_, anoboydl_ } = require('./animanga')
 const { nh_info, nh_search, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf } = require('./nsfw')
+const { otaku_home, otaku_genre, otaku_search, otaku_dl } = require('./otakudesu')
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -92,25 +93,31 @@ router.get('/downloader/telesticker', teledl);
 //―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 //samehadaku
+router.get('/animanga/samehadaku-home', samehadaku.home)
+//router.get('/samehadaku/page', samehadaku.home)
+router.get('/animanga/samehadaku-blog', samehadaku.blog)
+router.get('/animanga/samehadaku-blog-read', samehadaku.readblog)
+//router.get('/samehadaku/blog', samehadaku.blog)
+router.get('/animanga/samehadaku-anime', samehadaku.anime)
+router.get('/animanga/samehadaku-download', samehadaku.readanime)
+router.get('/animanga/samehadaku-search', samehadaku.search)
+//router.get('/samehadaku/search', samehadaku.searchByPage)
+router.get('/animanga/samehadaku-season', samehadaku.season)
+router.get('/animanga/samehadaku-daterelease', samehadaku.date)
+router.get('/animanga/samehadaku-listanime', samehadaku.listWithoutPage)
+//router.get('/samehadaku/list-anime', samehadaku.listWithPage)
+router.get('/animanga/samehadaku-genre', samehadaku.searchByGenre)
+router.get('/animanga/samehadaku-tag', samehadaku.tag)
+router.get('/animanga/samehadaku-blogcategory', samehadaku.blogcategory)
+//router.get('/samehadaku/blog-category', samehadaku.blogCategoryByPage)
+router.get('/animanga/samehadaku-listgenre', samehadaku.daftarGenre)
 
-router.get('/samehadaku/', samehadaku.home)
-router.get('/samehadaku/page/', samehadaku.home)
-router.get('/samehadaku/blog/', samehadaku.blog)
-router.get('/samehadaku/blog/read/', samehadaku.readblog)
-router.get('/samehadaku/blog/', samehadaku.blog)
-router.get('/samehadaku/anime/', samehadaku.anime)
-router.get('/samehadaku/anime/eps/', samehadaku.readanime)
-router.get('/samehadaku/search/', samehadaku.search)
-router.get('/samehadaku/search/', samehadaku.searchByPage)
-router.get('/samehadaku/season/', samehadaku.season)
-router.get('/samehadaku/date-release/', samehadaku.date)
-router.get('/samehadaku/list-anime/', samehadaku.listWithoutPage)
-router.get('/samehadaku/list-anime/', samehadaku.listWithPage)
-router.get('/samehadaku/genre/', samehadaku.searchByGenre)
-router.get('/samehadaku/tag/', samehadaku.tag)
-router.get('/samehadaku/blog-category/', samehadaku.blogcategory)
-router.get('/samehadaku/blog-category/', samehadaku.blogCategoryByPage)
-router.get('/samehadaku/daftar-genre', samehadaku.daftarGenre)
+//otakudesu
+router.get('/animanga/otakudesu-home', otaku_home);
+router.get('/animanga/otakudesu-listgenre', otaku_genre);
+router.get('/animanga/otakudesu-search', otaku_search);
+router.get('/animanga/otakudesu-download', otaku_dl);
+
 
 router.get('/animanga/meganebuk', meganebuk_);
 
@@ -122,52 +129,35 @@ router.get('/animanga/anoboysearch', anoboys_);
 
 router.get('/animanga/anoboydl', anoboydl_);
 
-router.get('/animanga/otakudesu_home', otaku_home);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  NSFW  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 //nhentai
 router.get('/nsfw/nhentai-info', nh_info);
-
 router.get('/nsfw/nhentai-search', nh_search);
-
 router.get('/nsfw/nhentai-read', nh_read);
-
 router.get('/nsfw/nhentai-pdf', nh_pdf);
-
 router.get('/nsfw/nhentai-zip', nh_zip);
 
 //pururin
 router.get('/nsfw/pururin-info', prr_info);
-
 router.get('/nsfw/pururin-search', prr_search);
-
 router.get('/nsfw/pururin-read', prr_read);
-
 router.get('/nsfw/pururin-pdf', prr_pdf);
 
 //doujindesu
 router.get('/nsfw/doujindesu-info', dd_info);
-
 router.get('/nsfw/doujindesu-search', dd_search);
-
 router.get('/nsfw/doujindesu-latest', dd_latest);
-
 router.get('/nsfw/doujindesu-read', dd_read);
-
 router.get('/nsfw/doujindesu-pdf', dd_pdf);
 
 //sekaikomik
 router.get('/nsfw/sekaikomik-info', sk_info);
-
 router.get('/nsfw/sekaikomik-search', sk_search);
-
 router.get('/nsfw/sekaikomik-latest', sk_latest);
-
 router.get('/nsfw/sekaikomik-popular', sk_popular);
-
 router.get('/nsfw/sekaikomik-read', sk_read);
-
 router.get('/nsfw/sekaikomik-pdf', sk_pdf);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
