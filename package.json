@@ -30,6 +30,7 @@
   "homepage": "https://github.com/amoskared/apitrash#readme",
   "dependencies": {
     "@distube/ytdl-core": "^4.11.4",
+    "@phaticusthiccy/open-apis": "^1.8.5",
     "adm-zip": "^0.5.9",
     "axios": "^0.27.2",
     "axios-retry": "^3.3.1",
