@@ -24,10 +24,10 @@ async function otaku_home(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
+	})
 		} catch(err) {
        res.json(loghandler.error) 
      }
-	})
 }
 async function otaku_genre(req, res, next) {
 	var apikey = req.query.apikey
@@ -43,10 +43,10 @@ async function otaku_genre(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
+	})
 		} catch(err) {
        res.json(loghandler.error) 
      }
-	})
 }
 async function otaku_search(req, res, next) {
 	var query = req.query.query;
@@ -64,10 +64,10 @@ async function otaku_search(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
+	})
 		} catch(err) {
        res.json(loghandler.error) 
      }
-	})
 }
 async function otaku_dl(req, res, next) {
 	var url = req.query.url;
@@ -86,9 +86,9 @@ async function otaku_dl(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
+	})
 		} catch(err) {
        res.json(loghandler.error) 
      }
-	})
 }
 module.exports = { otaku_home, otaku_genre, otaku_search, otaku_dl };
