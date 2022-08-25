@@ -15,6 +15,7 @@ async function otaku_home(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
+	try {
 	otaku.listHomeUpdate()
 	.then((data) =>{
 	
@@ -23,9 +24,9 @@ async function otaku_home(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
-		.catch(e => {
-		res.json(loghandler.error)
-		})
+		} catch(err) {
+       res.json(loghandler.error) 
+     }
 	})
 }
 async function otaku_genre(req, res, next) {
@@ -33,6 +34,7 @@ async function otaku_genre(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
+	try {
 	otaku.listGenre()
 	.then((data) =>{
 	
@@ -41,9 +43,9 @@ async function otaku_genre(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
-		.catch(e => {
-		res.json(loghandler.error)
-		})
+		} catch(err) {
+       res.json(loghandler.error) 
+     }
 	})
 }
 async function otaku_search(req, res, next) {
@@ -53,6 +55,7 @@ async function otaku_search(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
+	try {
 	otaku.getAnime(query)
 	.then((data) =>{
 	
@@ -61,9 +64,9 @@ async function otaku_search(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
-		.catch(e => {
-		res.json(loghandler.error)
-		})
+		} catch(err) {
+       res.json(loghandler.error) 
+     }
 	})
 }
 async function otaku_dl(req, res, next) {
@@ -74,6 +77,7 @@ async function otaku_dl(req, res, next) {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	if (!url.includes('otakudesu')) return res.json(loghandler.noturl)
 	
+	try {
 	otaku.getDownloadsByUrl(url)
 	.then((data) =>{
 	
@@ -82,9 +86,9 @@ async function otaku_dl(req, res, next) {
 	        creator: `${creator}`,
 			result: data
 		})
-		.catch(e => {
-		res.json(loghandler.error)
-		})
+		} catch(err) {
+       res.json(loghandler.error) 
+     }
 	})
 }
 module.exports = { otaku_home, otaku_genre, otaku_search, otaku_dl };
