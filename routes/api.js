@@ -1864,7 +1864,7 @@ router.get('/info/instagramstalk', async (req, res, next) => {
          .catch(e => {  
 			 res.json(loghandler.error)
 })
-}
+})
 router.get('/info/githubstalk', async (req, res, next) => {
 	var user = req.query.user
 	var apikey = req.query.apikey
