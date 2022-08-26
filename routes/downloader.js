@@ -265,7 +265,6 @@ async function fbdl2(req, res, next) {
 try {
 apidl.facebook(url)
 .then(data => {
-	if (!data.links ) return res.json(loghandler.noturl)
 	res.json({
 	status: true,
 	creator: `${creator}`,
@@ -314,7 +313,6 @@ async function twitterdl2(req, res, next) {
 	try {
 apidl.twitter(url)
 .then(data => {
-	if (!data.thumb ) res.json(loghandler.noturl)
 var result = data
 res.json({
 status: true,
@@ -336,7 +334,6 @@ async function tiktokdl(req, res, next) {
 try {
 apidl.tiktok(url)
 .then(data => {
-	if (!data.video ) return res.json(loghandler.noturl)
 	var result = data
 	res.json({
 	status: true,
@@ -358,7 +355,6 @@ async function tiktokdl2(req, res, next) {
 try {
 apidl.tiktok2(url)
 .then(data => {
-	if (!data.video ) return res.json(loghandler.noturl)
 	var result = data
 	res.json({
 	status: true,
@@ -438,7 +434,6 @@ async function igdl2(req, res, next) {
 
 	apidl.instagram(url)
 	.then(data => {
-		if (!data ) return res.json(loghandler.noturl)
 		var result = data
 		res.json({
 			status: true,
@@ -483,7 +478,6 @@ async function scdl2(req, res, next) {
 	
 	apidl.soundcloud(url)
 	.then(data => {
-		if (!data.download ) return res.json(loghandler.noturl)
 		var result = data
 		res.json({
 			status: true,
