@@ -551,7 +551,7 @@ async function wolf2(req, res, next) {
 }
 
 
-moldule.exports = {
+module.exports = {
     custom1,
     custom2,
     typo,
