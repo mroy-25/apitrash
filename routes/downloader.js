@@ -4,7 +4,7 @@ __path = process.cwd()
 const openApis = require("@phaticusthiccy/open-apis");
 const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
 const apis = require("../lib/listdl")
-const apidl = apis.apidl2
+const apidl = require("../lib/scrape/downloader2")
 const { ytPlay, ytMp3, ytMp4 } = require("../lib/youtube");
 const { GDrive } = require("../lib/scrape/gdrive");
 const { mediafire2 } = require("../lib/scrape/mediafire");
@@ -20,7 +20,7 @@ async function mp31(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	if (!url.includes('youtu')) return res.json(loghandler.noturl)
-
+try {
 	let { yta, ytv } = require('../lib/y2mate')
 	let mp3 = await yta(url, '320kbps')
 	let mp4 = await ytv(url, '360p')
@@ -35,6 +35,9 @@ async function mp31(req, res, next) {
 				mp3: mp3.dl_link,
 
 	} })
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function mp41(req, res, next) {
@@ -44,7 +47,7 @@ async function mp41(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	if (!url.includes('youtu')) return res.json(loghandler.noturl)
-
+try {
 	let { yta, ytv } = require('../lib/y2mate')
 	let mp3 = await yta(url, '320kbps')
 	let mp4 = await ytv(url, '360p')
@@ -59,6 +62,9 @@ async function mp41(req, res, next) {
 				mp4: mp4.dl_link
 
 	} })
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function mp32(req, res, next) {
@@ -68,7 +74,7 @@ async function mp32(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	if (!url.includes('youtu')) return res.json(loghandler.noturl)
-
+try {
 	ytMp3(url)
 	.then(data => {
 		res.json({
@@ -77,6 +83,9 @@ async function mp32(req, res, next) {
 			result: data
 		})
 		})
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 async function mp42(req, res, next) {
 	var url = req.query.url;
@@ -85,7 +94,7 @@ async function mp42(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	if (!url.includes('youtu')) return res.json(loghandler.noturl)
-
+try {
 	ytMp4(url)
 	.then(data => {
 		res.json({
@@ -94,6 +103,9 @@ async function mp42(req, res, next) {
 			result: data
 		})
 		})
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 async function play1(req, res, next) {
 	var text1 = req.query.text;
@@ -101,7 +113,7 @@ async function play1(req, res, next) {
 	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-
+try {
 	let yts = require("yt-search")
 	let search = await yts(text1)
 	let anu = search.videos[Math.floor(Math.random() * search.videos.length)]
@@ -132,6 +144,9 @@ async function play1(req, res, next) {
 				}
 
 	} })
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function play2(req, res, next) {
@@ -140,7 +155,7 @@ async function play2(req, res, next) {
 	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-
+try {
 	ytPlay(text1)
 	.then(data => {
 		res.json({
@@ -149,6 +164,9 @@ async function play2(req, res, next) {
 			result: data
 		})
 		})
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function gdrivedl(req, res, next) {
@@ -158,7 +176,7 @@ async function gdrivedl(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	if (!url.includes('drive.google')) return res.json(loghandler.noturl)
-
+try {
 	GDrive(url)
 	.then(data => {
 		res.json({
@@ -167,6 +185,9 @@ async function gdrivedl(req, res, next) {
 			result: data
 		})
 		})
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function mediafiredl(req, res, next) {
@@ -176,7 +197,7 @@ async function mediafiredl(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	if (!url.includes('mediafire.com')) return res.json(loghandler.noturl)
-
+try {
 	mediafire2(url)
 	.then(data => {
 		res.json({
@@ -185,6 +206,9 @@ async function mediafiredl(req, res, next) {
 			result: data
 		})
 		})
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function zippydl(req, res, next) {
@@ -194,7 +218,7 @@ async function zippydl(req, res, next) {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 	if (!url.includes('zippyshare.com')) return res.json(loghandler.noturl)
-
+try {
 	zippy(url)
 	.then(data => {
 		res.json({
@@ -203,6 +227,9 @@ async function zippydl(req, res, next) {
 			result: data
 		})
 		})
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function fbdl(req, res, next) {
@@ -211,7 +238,7 @@ async function fbdl(req, res, next) {
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
+try {
 apis.fbDown2(url)
 .then(data => {
 	if (!data.links ) return res.json(loghandler.noturl)
@@ -224,6 +251,9 @@ apis.fbDown2(url)
 	 .catch(e => {
 		res.json(loghandler.error)
 })
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function fbdl2(req, res, next) {
@@ -232,7 +262,7 @@ async function fbdl2(req, res, next) {
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
+try {
 apidl.facebook(url)
 .then(data => {
 	if (!data.links ) return res.json(loghandler.noturl)
@@ -245,6 +275,9 @@ apidl.facebook(url)
 	 .catch(e => {
 		res.json(loghandler.error)
 })
+	} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function twitterdl(req, res, next) {
@@ -253,7 +286,7 @@ async function twitterdl(req, res, next) {
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
+	try {
 apis.twitter(url)
 .then(data => {
 	if (!data.thumb ) res.json(loghandler.noturl)
@@ -267,6 +300,9 @@ result
 .catch(e => {
 res.json(loghandler.error)
 })
+		} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function twitterdl2(req, res, next) {
@@ -275,7 +311,7 @@ async function twitterdl2(req, res, next) {
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})   
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-	
+	try {
 apidl.twitter(url)
 .then(data => {
 	if (!data.thumb ) res.json(loghandler.noturl)
@@ -286,9 +322,9 @@ creator: `${creator}`,
 result
 })
 })
-.catch(e => {
-res.json(loghandler.error)
-})
+} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function tiktokdl(req, res, next) {
@@ -297,7 +333,7 @@ async function tiktokdl(req, res, next) {
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-
+try {
 apidl.tiktok(url)
 .then(data => {
 	if (!data.video ) return res.json(loghandler.noturl)
@@ -308,10 +344,9 @@ apidl.tiktok(url)
 		result
 	})
 	})
-	 .catch(e => {
-	
-		res.json(loghandler.noturl)
-})
+} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function tiktokdl2(req, res, next) {
@@ -320,7 +355,7 @@ async function tiktokdl2(req, res, next) {
 	if (!url ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"}) 
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
-
+try {
 apidl.tiktok2(url)
 .then(data => {
 	if (!data.video ) return res.json(loghandler.noturl)
@@ -331,10 +366,9 @@ apidl.tiktok2(url)
 		result
 	})
 	})
-	 .catch(e => {
-	
-		res.json(loghandler.noturl)
-})
+} catch (e) {
+	res.json(loghandler.error)
+}
 }
 
 async function igstorydl(req, res, next) {
