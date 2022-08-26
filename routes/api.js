@@ -31,121 +31,45 @@ var router = express.Router()
 const {fetchText, fetchJson, runtime, getBuffer, readTxt, readJson } = require('../lib/myfunc')
 const apis = require("../lib/listdl")
 const samehadaku = require("../lib/samehadaku")
-
-const {  mp31,
-	 mp32, 
-	 mp41, 
-	 mp42, 
-	 play1, 
-	 play2, 
-	 gdrivedl, 
-	 zippydl, 
-	 mediafiredl, 
-	 fbdl, 
-	 fbdl2, 
-	 twitterdl, 
-	 twitterdl2, 
-	 tiktokdl, 
-	 tiktokdl2, 
-	 igdl, 
-	 igdl2,
-	 scdl,
-	 scdl2,
-	 igstorydl, 
-	 teledl,
-	 linedl, 
-	 likedl,
-	 imdb,
-	 cocofundl,
-	 pindl, 
-	 imgur
-	} = require('./downloader')
-
-const { meganebuk_, 
-       kusobyquery, 
-       kusobyurl, 
-       anoboys_, 
-       anoboydl_ 
-      } = require('./animanga')
-
-const { nh_info, 
-       nh_search, 
-       nh_read, 
-       nh_pdf, 
-       nh_zip, 
-       prr_info, 
-       prr_search, 
-       prr_read, 
-       prr_pdf, 
-       dd_info, 
-       dd_latest, 
-       dd_search, 
-       dd_read, 
-       dd_pdf, 
-       sk_info, 
-       sk_latest, 
-       sk_popular, 
-       sk_search, 
-       sk_read, 
-       sk_pdf 
-      } = require('./nsfw')
-
-const { otaku_home, 
-       otaku_genre, 
-       otaku_search, 
-       otaku_dl 
-      } = require('./otakudesu')
+const otakudesu =  require('./otakudesu')
+const animanga =  require('./animanga')
+const textpro =  require('./textpro')
+const downloader =  require('./downloader')
+const nsfw =  require('./nsfw')
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-//―――――――――――――――――――――――――――――――――――――――――― ┏  Info  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
-//  >>>>>Menu<<<<<
-// >Dowloader
-// >Text Pro
-// >Photooxy
-// >Sound Of Text
-// >Search
-// >Random Gambar
-// >Game
-// >Maker
-// >Link Short
-// >Information
-// >Emoji
-// >Tools
-// >Islamic
-//
-//
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Downloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
-router.get('/downloader/youtubemp3', mp31);
-router.get('/downloader/youtubemp4', mp41);
-router.get('/downloader/youtubemp3v2', mp32);
-router.get('/downloader/youtubemp4v2', mp42);
-router.get('/downloader/youtubeplay', play1);
-router.get('/downloader/youtubeplayv2', play2);
-router.get('/downloader/gdrive', gdrivedl);
-router.get('/downloader/mediafire', mediafiredl);
-router.get('/downloader/zippyshare', zippydl);
-router.get('/downloader/facebook', fbdl);
-router.get('/downloader/facebookv2', fbdl2);
-router.get('/downloader/twitter', twitterdl);
-router.get('/downloader/twitterv2', twitterdl2);
-router.get('/downloader/tiktok', tiktokdl);
-router.get('/downloader/tiktokv2', tiktokdl2);
-router.get('/downloader/igstory', igstorydl);
-router.get('/downloader/instagram', igdl);
-router.get('/downloader/instagramv2', igdl2);
-router.get('/downloader/soundcloud', scdl);
-router.get('/downloader/soundcloudv2', scdl2);
-router.get('/downloader/telesticker', teledl);
-router.get('/downloader/imdb', imdb);
-router.get('/downloader/linesticker', linedl);
-router.get('/downloader/likee', likedl);
-router.get('/downloader/cocofun', cocofundl);
-router.get('/downloader/pinterestdl', pindl);
-router.get('/downloader/imgur', imgur);
+router.get('/downloader/youtubemp3', downloader.mp31);
+router.get('/downloader/youtubemp4', downloader.mp41);
+router.get('/downloader/youtubemp3v2', downloader.mp32);
+router.get('/downloader/youtubemp4v2', downloader.mp42);
+router.get('/downloader/youtubeplay', downloader.play1);
+router.get('/downloader/youtubeplayv2', downloader.play2);
+router.get('/downloader/gdrive', downloader.gdrivedl);
+router.get('/downloader/mediafire', downloader.mediafiredl);
+router.get('/downloader/zippyshare', downloader.zippydl);
+router.get('/downloader/facebook', downloader.fbdl);
+router.get('/downloader/facebookv2', downloader.fbdl2);
+router.get('/downloader/twitter', downloader.twitterdl);
+router.get('/downloader/twitterv2', downloader.twitterdl2);
+router.get('/downloader/tiktok', downloader.tiktokdl);
+router.get('/downloader/tiktokv2', downloader.tiktokdl2);
+router.get('/downloader/igstory', downloader.igstorydl);
+router.get('/downloader/instagram', downloader.igdl);
+router.get('/downloader/instagramv2', downloader.igdl2);
+router.get('/downloader/soundcloud', downloader.scdl);
+router.get('/downloader/soundcloudv2', downloader.scdl2);
+router.get('/downloader/telesticker', downloader.teledl);
+router.get('/downloader/imdb', downloader.imdb);
+router.get('/downloader/linesticker', downloader.linedl);
+router.get('/downloader/likee', downloader.likedl);
+router.get('/downloader/cocofun', downloader.cocofundl);
+router.get('/downloader/pinterestdl', downloader.pindl);
+router.get('/downloader/imgur', downloader.imgur);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  ANIME - MANGA  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
@@ -168,415 +92,102 @@ router.get('/animanga/samehadaku-tag', samehadaku.tag)
 router.get('/animanga/samehadaku-blogcategory', samehadaku.blogcategory)
 //router.get('/samehadaku/blog-category', samehadaku.blogCategoryByPage)
 router.get('/animanga/samehadaku-listgenre', samehadaku.daftarGenre)
-
 //otakudesu
-router.get('/animanga/otakudesu-home', otaku_home);
-router.get('/animanga/otakudesu-listgenre', otaku_genre);
-router.get('/animanga/otakudesu-search', otaku_search);
-router.get('/animanga/otakudesu-download', otaku_dl);
+router.get('/animanga/otakudesu-home', otakudesu.otaku_home);
+router.get('/animanga/otakudesu-listgenre', otakudesu.otaku_genre);
+router.get('/animanga/otakudesu-search', otakudesu.otaku_search);
+router.get('/animanga/otakudesu-download', otakudesu.otaku_dl);
 
-
-router.get('/animanga/meganebuk', meganebuk_);
-router.get('/animanga/kusonime-by-query', kusobyquery);
-router.get('/animanga/kusonime-by-url', kusobyurl);
-router.get('/animanga/anoboysearch', anoboys_);
-router.get('/animanga/anoboydl', anoboydl_);
-
+router.get('/animanga/meganebuk', animanga.meganebuk_);
+router.get('/animanga/kusonime-by-query', animanga.kusobyquery);
+router.get('/animanga/kusonime-by-url', animanga.kusobyurl);
+router.get('/animanga/anoboysearch', animanga.anoboys_);
+router.get('/animanga/anoboydl', animanga.anoboydl_);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  NSFW  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 //nhentai
-router.get('/nsfw/nhentai-info', nh_info);
-router.get('/nsfw/nhentai-search', nh_search);
-router.get('/nsfw/nhentai-read', nh_read);
-router.get('/nsfw/nhentai-pdf', nh_pdf);
-router.get('/nsfw/nhentai-zip', nh_zip);
-
+router.get('/nsfw/nhentai-info', nsfw.nh_info);
+router.get('/nsfw/nhentai-search', nsfw.nh_search);
+router.get('/nsfw/nhentai-read', nsfw.nh_read);
+router.get('/nsfw/nhentai-pdf', nsfw.nh_pdf);
+router.get('/nsfw/nhentai-zip', nsfw.nh_zip);
 //pururin
-router.get('/nsfw/pururin-info', prr_info);
-router.get('/nsfw/pururin-search', prr_search);
-router.get('/nsfw/pururin-read', prr_read);
-router.get('/nsfw/pururin-pdf', prr_pdf);
-
+router.get('/nsfw/pururin-info', nsfw.prr_info);
+router.get('/nsfw/pururin-search', nsfw.prr_search);
+router.get('/nsfw/pururin-read', nsfw.prr_read);
+router.get('/nsfw/pururin-pdf', nsfw.prr_pdf);
 //doujindesu
-router.get('/nsfw/doujindesu-info', dd_info);
-router.get('/nsfw/doujindesu-search', dd_search);
-router.get('/nsfw/doujindesu-latest', dd_latest);
-router.get('/nsfw/doujindesu-read', dd_read);
-router.get('/nsfw/doujindesu-pdf', dd_pdf);
-
+router.get('/nsfw/doujindesu-info', nsfw.dd_info);
+router.get('/nsfw/doujindesu-search', nsfw.dd_search);
+router.get('/nsfw/doujindesu-latest', nsfw.dd_latest);
+router.get('/nsfw/doujindesu-read', nsfw.dd_read);
+router.get('/nsfw/doujindesu-pdf', nsfw.dd_pdf);
 //sekaikomik
-router.get('/nsfw/sekaikomik-info', sk_info);
-router.get('/nsfw/sekaikomik-search', sk_search);
-router.get('/nsfw/sekaikomik-latest', sk_latest);
-router.get('/nsfw/sekaikomik-popular', sk_popular);
-router.get('/nsfw/sekaikomik-read', sk_read);
-router.get('/nsfw/sekaikomik-pdf', sk_pdf);
+router.get('/nsfw/sekaikomik-info', nsfw.sk_info);
+router.get('/nsfw/sekaikomik-search', nsfw.sk_search);
+router.get('/nsfw/sekaikomik-latest', nsfw.sk_latest);
+router.get('/nsfw/sekaikomik-popular', nsfw.sk_popular);
+router.get('/nsfw/sekaikomik-read', nsfw.sk_read);
+router.get('/nsfw/sekaikomik-pdf', nsfw.sk_pdf);
+
+//―――――――――――――――――――――――――――――――――――――――――― ┏  Akaneko  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
+
+router.get('/akaneko/akaneko-wrapper', async (req, res, next) => {
+    var param = req.query.param;
+	var apikey = req.query.apikey
+    if (!param) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter param"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
+try {
+	const akaneko = require("../lib/scrape/akaneko");
+    const result = await akaneko.akanekoApi(param)
+    data = await getBuffer(result)
+    await fs.writeFileSync(__path +'/tmp/image.png', data)
+    await res.sendFile(__path +'/tmp/image.png')
+    await sleep(3000)
+    await fs.unlinkSync(__path + '/tmp/image.png')
+} catch (err) {
+	res.json(loghandler.error)
+}
+})
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Text Pro  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
-
-router.get('/textpro/pencil', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)  
-
-	apis.textpro("https://textpro.me/create-a-sketch-text-effect-online-1044.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-	})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/glitch', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-impressive-glitch-text-effects-online-1027.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/blackpink', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-blackpink-logo-style-online-1001.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/berry', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-berry-text-effect-online-free-1033.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/neon', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/neon-light-text-effect-online-882.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-
-router.get('/textpro/logobear', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/online-black-and-white-bear-mascot-logo-creation-1012.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/3dchristmas', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/3d-christmas-text-effect-by-name-1055.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/thunder', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/online-thunder-text-effect-generator-1031.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/3dboxtext', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/3d-box-text-effect-online-880.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-
-router.get('/textpro/glitch2', async (req, res, next) => {
-	var text1 = req.query.text
-	var text2 = req.query.text2
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})   
-	if (!text2 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text2"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-a-glitch-text-effect-online-free-1026.html", [text1,text2])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/glitchtiktok', async (req, res, next) => {
-	var text1 = req.query.text
-	var text2 = req.query.text2
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})   
-	if (!text2 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text2"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-glitch-text-effect-style-tik-tok-983.html", [text1,text2])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/video-game-classic', async (req, res, next) => {
-	var text1 = req.query.text
-	var text2 = req.query.text2
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})   
-	if (!text2 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text2"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/video-game-classic-8-bit-text-effect-1037.html", [text1,text2])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/marvel-studios', async (req, res, next) => {
-	var text1 = req.query.text
-	var text2 = req.query.text2
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})   
-	if (!text2 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text2"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-logo-style-marvel-studios-online-971.html", [text1,text2])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/ninja-logo', async (req, res, next) => {
-	var text1 = req.query.text
-	var text2 = req.query.text2
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})   
-	if (!text2 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text2"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-ninja-logo-online-935.html", [text1,text2])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/green-horror', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-green-horror-style-text-effect-online-1036.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/magma', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-a-magma-hot-text-effect-online-1030.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/3d-neon-light', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"}) 
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-3d-neon-light-text-effect-online-1028.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/3d-orange-juice', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/create-a-3d-orange-juice-text-effect-online-1084.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/chocolate-cake', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/chocolate-cake-text-effect-890.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
-
-router.get('/textpro/strawberry', async (req, res, next) => {
-	var text1 = req.query.text;
-	var apikey = req.query.apikey
-	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
-	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
-
-	apis.textpro("https://textpro.me/strawberry-text-effect-online-889.html", [text1])
-.then((data) =>{ 
-	res.set({'Content-Type': 'image/png'})
-	res.send(data)
-})
-.catch((err) =>{
- res.json(loghandler.error)
-})
-})
+//text1
+router.get('/textpro/custom1', textpro.custom1);
+router.get('/textpro/pencils', textpro.pencil);
+router.get('/textpro/typography', textpro.typo);
+router.get('/textpro/minion', textpro.minion);
+router.get('/textpro/transformer', textpro.transformer);
+router.get('/textpro/glitch', textpro.glitch);
+router.get('/textpro/blackpink', textpro.blackpink);
+router.get('/textpro/berry', textpro.berry);
+router.get('/textpro/neon', textpro.neon);
+router.get('/textpro/3d-neon-light', textpro.neonlight);
+router.get('/textpro/3d-christmas', textpro.christmas);
+router.get('/textpro/logobear', textpro.logobear);
+router.get('/textpro/thunder', textpro.thunder);
+router.get('/textpro/3d-boxtext', textpro.boxtext);
+router.get('/textpro/green-horror', textpro.greenhorror);
+router.get('/textpro/magma', textpro.magma);
+router.get('/textpro/3d-orange-juice', textpro.orangejuice);
+router.get('/textpro/chocolate-cake', textpro.chocolatecake);
+router.get('/textpro/strawberry', textpro.strawberry);
+router.get('/textpro/joker-logo', textpro.joker);
+//text1 text2
+router.get('/textpro/custom2', textpro.custom2);
+router.get('/textpro/glitch2', textpro.glitch2);
+router.get('/textpro/glitchtiktok', textpro.glitchtiktok);
+router.get('/textpro/video-game-classic', textpro.classic);
+router.get('/textpro/marvel-studios', textpro.marvel);
+router.get('/textpro/ninja-logo', textpro.ninjalogo);
+router.get('/textpro/pornhub-logo', textpro.pornhub);
+router.get('/textpro/wolf-logo1', textpro.wolf1);
+router.get('/textpro/wolf-logo2', textpro.wolf2);
+router.get('/textpro/avengers-logo', textpro.avengers);
+router.get('/textpro/3d-space', textpro.magma);
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Phootoxy  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
-
 
 router.get('/photooxy/flaming', async (req, res, next) => {
 	var text1 = req.query.text;
@@ -842,8 +453,6 @@ router.get('/photooxy/sweet-candy', async (req, res, next) => {
 })
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Sound Of Text  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
-
-
 
 router.get('/soundoftext', async (req, res, next) => {
 	var text1 = req.query.text
