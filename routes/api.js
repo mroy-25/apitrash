@@ -109,12 +109,14 @@ router.get('/animanga/anoboydl', animanga.anoboydl_);
 //nhentai
 router.get('/nsfw/nhentai-info', nsfw.nh_info);
 router.get('/nsfw/nhentai-search', nsfw.nh_search);
+router.get('/nsfw/nhentai-random', nsfw.nh_random);
 router.get('/nsfw/nhentai-read', nsfw.nh_read);
 router.get('/nsfw/nhentai-pdf', nsfw.nh_pdf);
 router.get('/nsfw/nhentai-zip', nsfw.nh_zip);
 //pururin
 router.get('/nsfw/pururin-info', nsfw.prr_info);
 router.get('/nsfw/pururin-search', nsfw.prr_search);
+router.get('/nsfw/pururin-random', nsfw.prr_random);
 router.get('/nsfw/pururin-read', nsfw.prr_read);
 router.get('/nsfw/pururin-pdf', nsfw.prr_pdf);
 //doujindesu
