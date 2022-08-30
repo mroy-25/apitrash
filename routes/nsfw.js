@@ -58,6 +58,23 @@ async function nh_search(req, res, next) {
        res.json({ error: err.message }) 
      }
 }
+async function nh_random(req, res, next) {
+	var apikey = req.query.apikey
+	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	try {
+	let nh = await fetchJson(`https://janda.mod.land/nhentai/random`)
+	
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: nh.data
+		})	
+} catch(err) {
+       res.json({ error: err.message }) 
+     }
+}
 async function nh_read(req, res, next) {
 	var code = req.query.code;
 	var apikey = req.query.apikey
@@ -198,6 +215,23 @@ async function prr_search(req, res, next) {
 	
 	try {
 	let prr = await fetchJson(`https://janda.mod.land/pururin/search/?key=${key}&sort=${sort}&page=${page}`)
+	
+	res.json({
+			status: true,
+	        	creator: `${creator}`,
+			result: prr.data
+		})	
+} catch(err) {
+       res.json({ error: err.message }) 
+     }
+}
+async function prr_random(req, res, next) {
+	var apikey = req.query.apikey
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
+	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
+	
+	try {
+	let prr = await fetchJson(`https://janda.mod.land/pururin/random`)
 	
 	res.json({
 			status: true,
@@ -611,4 +645,4 @@ async function sk_pdf(req, res, next) {
        res.json({ error: err.message }) 
      }
 }
-module.exports = { nh_info, nh_search, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf };
+module.exports = { nh_info, nh_search, nh_random, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr,random, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf };
