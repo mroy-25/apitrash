@@ -24,12 +24,12 @@ async function nh_info(req, res, next) {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
 	try {
-	let nh = await fetchJson(`https://janda.mod.land/nhentai/get?book=${code}`)
+	let nh = await axios.get(`https://janda.mod.land/nhentai/get?book=${code}`)
 	
 	res.json({
 			status: true,
 	        	creator: `${creator}`,
-			result: nh.data
+			result: nh.data.data
 		})	
 } catch(err) {
        res.json({ error: err.message }) 
@@ -47,12 +47,12 @@ async function nh_search(req, res, next) {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
 	try {
-	let nh = await fetchJson(`https://janda.mod.land/nhentai/search/?key=${key}&sort=${sort}&page=${page}`)
+	let nh = await axios.get(`https://janda.mod.land/nhentai/search/?key=${key}&sort=${sort}&page=${page}`)
 	
 	res.json({
 			status: true,
 	        	creator: `${creator}`,
-			result: nh.data
+			result: nh.data.data
 		})	
 } catch(err) {
        res.json({ error: err.message }) 
@@ -60,16 +60,16 @@ async function nh_search(req, res, next) {
 }
 async function nh_random(req, res, next) {
 	var apikey = req.query.apikey
-	if (!code ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter code"})
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
 	try {
-	let nh = await fetchJson(`https://janda.mod.land/nhentai/random`)
+	let nh = await axios.get(`https://janda.mod.land/nhentai/random`)
 	
 	res.json({
 			status: true,
 	        	creator: `${creator}`,
-			result: nh.data
+			result: nh.data.data
 		})	
 } catch(err) {
        res.json({ error: err.message }) 
@@ -191,12 +191,12 @@ async function prr_info(req, res, next) {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
 	try {
-	let prr = await fetchJson(`https://janda.mod.land/pururin/get?book=${code}`)
+	let prr = await axios.get(`https://janda.mod.land/pururin/get?book=${code}`)
 	
 	res.json({
 			status: true,
 	        	creator: `${creator}`,
-			result: prr.data
+			result: prr.data.data
 		})	
 } catch(err) {
        res.json({ error: err.message }) 
@@ -214,12 +214,12 @@ async function prr_search(req, res, next) {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
 	try {
-	let prr = await fetchJson(`https://janda.mod.land/pururin/search/?key=${key}&sort=${sort}&page=${page}`)
+	let prr = await axios.get(`https://janda.mod.land/pururin/search/?key=${key}&sort=${sort}&page=${page}`)
 	
 	res.json({
 			status: true,
 	        	creator: `${creator}`,
-			result: prr.data
+			result: prr.data.data
 		})	
 } catch(err) {
        res.json({ error: err.message }) 
@@ -231,12 +231,12 @@ async function prr_random(req, res, next) {
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 	
 	try {
-	let prr = await fetchJson(`https://janda.mod.land/pururin/random`)
+	let prr = await axios.get(`https://janda.mod.land/pururin/random`)
 	
 	res.json({
 			status: true,
 	        	creator: `${creator}`,
-			result: prr.data
+			result: prr.data.data
 		})	
 } catch(err) {
        res.json({ error: err.message }) 
