@@ -645,4 +645,4 @@ async function sk_pdf(req, res, next) {
        res.json({ error: err.message }) 
      }
 }
-module.exports = { nh_info, nh_search, nh_random, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr,random, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf };
+module.exports = { nh_info, nh_search, nh_random, nh_read, nh_pdf, nh_zip, prr_info, prr_search, prr_random, prr_read, prr_pdf, dd_info, dd_latest, dd_search, dd_read, dd_pdf, sk_info, sk_latest, sk_popular, sk_search, sk_read, sk_pdf };
