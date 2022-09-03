@@ -77,7 +77,6 @@
     "serve-favicon": "^2.5.0",
     "soundoftext-js": "^1.0.2",
     "ssl-express-www": "^3.0.8",
-    "tiktok-scraper": "^1.4.36",
     "tinyurl": "^1.1.7",
     "translate-google-api": "^1.0.4",
     "yt-search": "^2.10.2"
