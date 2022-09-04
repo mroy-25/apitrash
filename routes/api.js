@@ -4,18 +4,13 @@ __path = process.cwd()
 const axios = require('axios');
 const fs = require('fs');
 const yts = require('yt-search');
-const fss = require("fs-extra");
 const express = require('express')
 const translate = require('translate-google-api')
 const textto = require('soundoftext-js')
 const googleIt = require('google-it')
-const topdf = require("image-to-pdf");
-const request = require("request");
 const { shortText } = require("limit-text-js")
 const Canvas = require('canvas')
 const TinyURL = require('tinyurl');
-const { EmojiAPI } = require("emoji-api");
-const emoji = new EmojiAPI();
 const BitlyClient = require('bitly').BitlyClient
 const canvasGif = require('canvas-gif')
 const { convertStringToNumber } = require('convert-string-to-number'); 
@@ -23,7 +18,6 @@ const isImageURL = require('image-url-validator').default
 const Canvacord = require("canvacord");
 const openApis = require("@phaticusthiccy/open-apis");
 const isNumber = require('is-number');
-var isUrl = require("is-url")
 var router = express.Router()
 
 
@@ -40,7 +34,9 @@ const nsfw =  require('./nsfw')
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
+function isUrl(Link) {
+	return Link.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
+}
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Downloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
 
 router.get('/downloader/youtubemp3', downloader.mp31);
@@ -112,7 +108,7 @@ router.get('/nsfw/nhentai-search', nsfw.nh_search);
 router.get('/nsfw/nhentai-random', nsfw.nh_random);
 router.get('/nsfw/nhentai-read', nsfw.nh_read);
 router.get('/nsfw/nhentai-pdf', nsfw.nh_pdf);
-router.get('/nsfw/nhentai-zip', nsfw.nh_zip);
+//router.get('/nsfw/nhentai-zip', nsfw.nh_zip);
 //pururin
 router.get('/nsfw/pururin-info', nsfw.prr_info);
 router.get('/nsfw/pururin-search', nsfw.prr_search);
@@ -1561,9 +1557,9 @@ router.get('/emoji/apple', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[0].url)
+	resul = await getBuffer(emoji.apple)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
@@ -1579,9 +1575,9 @@ router.get('/emoji/google', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[1].url)
+	resul = await getBuffer(emoji.google)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
@@ -1597,9 +1593,9 @@ router.get('/emoji/samsung', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[2].url)
+	resul = await getBuffer(emoji.samsung)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
@@ -1616,9 +1612,9 @@ router.get('/emoji/microsoft', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[3].url)
+	resul = await getBuffer(emoji.microsoft)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
@@ -1634,9 +1630,9 @@ router.get('/emoji/whatsapp', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[4].url)
+	resul = await getBuffer(emoji.whatsapp)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
@@ -1652,9 +1648,9 @@ router.get('/emoji/twitter', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[5].url)
+	resul = await getBuffer(emoji.twitter)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
@@ -1670,9 +1666,9 @@ router.get('/emoji/facebook', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey)
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[6].url)
+	resul = await getBuffer(emoji.facebook)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
@@ -1688,9 +1684,9 @@ router.get('/emoji/skype', async (req, res, next) => {
 	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})
 	if (apikey != `${keyapi}`) return res.json(loghandler.notapikey) 
 
-	emoji.get(emoji1)
+	apis.emoji(emoji1)
     .then(async emoji => {
-	resul = await getBuffer(emoji.images[7].url)
+	resul = await getBuffer(emoji.skype)
 	res.set({'Content-Type': 'image/png'})
 	res.send(resul)
 	})
