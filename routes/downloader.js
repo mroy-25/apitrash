@@ -8,7 +8,7 @@ const apidl = require("../lib/scrape/downloader2")
 const { ytPlay, ytMp3, ytMp4 } = require("../lib/youtube");
 const { GDrive } = require("../lib/scrape/gdrive");
 const { mediafire2 } = require("../lib/scrape/mediafire");
-const zippy = require("../lib/scrape/zippy");
+const { zippy } = require("../lib/scrape/zippy2");
 
 
 //―――――――――――――――――――――――――――――――――――――――――― ┏  Dowloader  ┓ ―――――――――――――――――――――――――――――――――――――――――― \\
